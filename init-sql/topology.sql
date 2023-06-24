@@ -11,32 +11,11 @@
  Target Server Version : 80032
  File Encoding         : 65001
 
- Date: 24/06/2023 12:20:39
+ Date: 24/06/2023 12:28:40
 */
 
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
-
--- ----------------------------
--- Table structure for connections
--- ----------------------------
-DROP TABLE IF EXISTS `connections`;
-CREATE TABLE `connections` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `topology_id` int DEFAULT NULL,
-  `node1_id` int DEFAULT NULL,
-  `node2_id` int DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='定义拓扑中节点的连接关系';
-
--- ----------------------------
--- Records of connections
--- ----------------------------
-BEGIN;
-INSERT INTO `connections` (`id`, `topology_id`, `node1_id`, `node2_id`) VALUES (1, 1, 1, 2);
-INSERT INTO `connections` (`id`, `topology_id`, `node1_id`, `node2_id`) VALUES (2, 1, 1, 3);
-INSERT INTO `connections` (`id`, `topology_id`, `node1_id`, `node2_id`) VALUES (3, 1, 2, 3);
-COMMIT;
 
 -- ----------------------------
 -- Table structure for node
