@@ -97,9 +97,10 @@ CREATE TABLE `user` (
 -- Records of user
 -- ----------------------------
 BEGIN;
-INSERT INTO `user` (`id`, `student_id`, `name`, `password`, `type`) VALUES (1, 52202201, '张三', '123456', 0);
+INSERT INTO `user` (`id`, `student_id`, `name`, `password`, `type`) VALUES (0, 52202200, 'admin', '123456', 0);
+INSERT INTO `user` (`id`, `student_id`, `name`, `password`, `type`) VALUES (1, 52202201, '张三', '123456', 1);
 INSERT INTO `user` (`id`, `student_id`, `name`, `password`, `type`) VALUES (2, 52202202, '李四', '123123', 1);
-INSERT INTO `user` (`id`, `student_id`, `name`, `password`, `type`) VALUES (3, 52202203, 'Bret', '321321', 0);
+INSERT INTO `user` (`id`, `student_id`, `name`, `password`, `type`) VALUES (3, 52202203, 'Bret', '321321', 1);
 COMMIT;
 
 SET FOREIGN_KEY_CHECKS = 1;
