@@ -13,4 +13,20 @@
         insert into user (<include refid="insertFields"></include>)
         values (#{studentId}, #{name}, #{password}, #{type});
     </insert>
+    <update id="updateUser">
+        update user
+        set student_id = #{studentId},
+            name       = #{name},
+            password   = #{password},
+            type       = #{type}
+        where id = #{id};
+    </update>
+    <delete id="deleteUserById">
+        delete
+        from user
+        where id = #{id};
+    </delete>
+    <select id="getUserList" resultType="com.nju.topology.entity.User">
+        select * from user;
+    </select>
 </mapper>

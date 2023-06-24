@@ -7,6 +7,8 @@ import com.nju.topology.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * ClassName: UserServiceImpl
  *
@@ -25,5 +27,29 @@ public class UserServiceImpl implements UserService {
         int res = userMapper.insertUser(user);
         if (res > 0) return Result.success("新增用户成功");
         else return Result.error("新增用户失败");
+    }
+
+    @Override
+    public Result<List<User>> getUserList() {
+        List<User> userList = userMapper.getUserList();
+        if (userList != null) {
+            return Result.success(userList);
+        } else {
+            return Result.error("返回用户列表失败");
+        }
+    }
+
+    @Override
+    public Result<String> updateUser(User user) {
+        int res = userMapper.updateUser(user);
+        if (res > 0) return Result.success("修改用户成功");
+        else return Result.error("修改用户失败");
+    }
+
+    @Override
+    public Result<String> deleteUser(int id) {
+        int res = userMapper.deleteUserById(id);
+        if (res > 0) return Result.success("删除用户成功");
+        else return Result.error("删除用户失败");
     }
 }

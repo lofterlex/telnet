@@ -4,6 +4,8 @@ import com.nju.topology.common.Result;
 import com.nju.topology.entity.User;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * InterfaceName: UserService
  *
@@ -16,6 +18,12 @@ public interface UserService {
 
 
     Result<String> addUser(User user);
+
+    Result<List<User>> getUserList();
+
+    Result<String> updateUser(User user);
+
+    Result<String> deleteUser(int id);
 
 
 }

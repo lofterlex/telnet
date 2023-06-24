@@ -10,7 +10,7 @@ import java.util.Map;
  *
  * @Author: jiahz
  * @Date: 2023/6/24 10:56
- * @Description:
+ * @Description: 统一返回数据结构
  */
 @Data
 public class Result<T> {
@@ -21,7 +21,6 @@ public class Result<T> {
 
     private T data; //数据
 
-    private Map map = new HashMap(); //动态数据
 
     public static <T> Result<T> success(T object) {
         Result<T> r = new Result<T>();
@@ -37,9 +36,5 @@ public class Result<T> {
         return r;
     }
 
-    public Result<T> add(String key, Object value) {
-        this.map.put(key, value);
-        return this;
-    }
 }
 

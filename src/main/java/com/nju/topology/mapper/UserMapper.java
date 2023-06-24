@@ -2,6 +2,9 @@ package com.nju.topology.mapper;
 
 import com.nju.topology.entity.User;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * ClassName: UserMapper
@@ -12,5 +15,13 @@ import org.apache.ibatis.annotations.Mapper;
  */
 @Mapper
 public interface UserMapper {
+
     int insertUser(User user);
+
+    List<User> getUserList();
+
+    int updateUser(User user);
+
+    int deleteUserById(@Param("id") int id);
+
 }
