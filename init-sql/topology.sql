@@ -11,7 +11,7 @@
  Target Server Version : 80032
  File Encoding         : 65001
 
- Date: 24/06/2023 10:11:21
+ Date: 24/06/2023 12:20:39
 */
 
 SET NAMES utf8mb4;
@@ -70,6 +70,8 @@ CREATE TABLE `task` (
   `id` int NOT NULL AUTO_INCREMENT COMMENT '任务id',
   `user_id` int DEFAULT NULL,
   `topology_id` int DEFAULT NULL,
+  `name` varchar(255) DEFAULT NULL COMMENT '任务名\n',
+  `desc` varchar(255) DEFAULT NULL COMMENT '任务描述',
   `score` int DEFAULT NULL COMMENT '成绩',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -78,7 +80,7 @@ CREATE TABLE `task` (
 -- Records of task
 -- ----------------------------
 BEGIN;
-INSERT INTO `task` (`id`, `user_id`, `topology_id`, `score`) VALUES (1, 2, 1, 88);
+INSERT INTO `task` (`id`, `user_id`, `topology_id`, `name`, `desc`, `score`) VALUES (1, 2, 1, 'static拓扑配置', '连接静态拓扑', 88);
 COMMIT;
 
 -- ----------------------------
@@ -110,7 +112,7 @@ CREATE TABLE `user` (
   `password` varchar(255) DEFAULT NULL,
   `type` int DEFAULT NULL COMMENT '0-管理员；1-用户',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- ----------------------------
 -- Records of user
@@ -118,6 +120,7 @@ CREATE TABLE `user` (
 BEGIN;
 INSERT INTO `user` (`id`, `student_id`, `name`, `password`, `type`) VALUES (1, 52202201, '张三', '123456', 0);
 INSERT INTO `user` (`id`, `student_id`, `name`, `password`, `type`) VALUES (2, 52202202, '李四', '123123', 1);
+INSERT INTO `user` (`id`, `student_id`, `name`, `password`, `type`) VALUES (3, 52202203, 'Bret', '321321', 0);
 COMMIT;
 
 SET FOREIGN_KEY_CHECKS = 1;
