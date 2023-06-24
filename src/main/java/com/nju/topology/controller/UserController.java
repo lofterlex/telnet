@@ -1,8 +1,10 @@
 package com.nju.topology.controller;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.nju.topology.common.Result;
+import com.nju.topology.entity.User;
+import com.nju.topology.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * ClassName: UserController
@@ -15,8 +17,17 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/user")
 public class UserController {
 
+    @Autowired
+    private UserService userService;
+
     @GetMapping
     public String test() {
         return "test";
+    }
+
+    @PostMapping("/add")
+    public Result<String> addUser(@RequestBody User user) {
+        Result<String> result = userService.addUser(user);
+        return result;
     }
 }
