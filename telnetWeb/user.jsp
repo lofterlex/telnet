@@ -4,7 +4,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/bootstrap.min.css">  
+  <script src="js/jquery.min.js"></script>
+  <script src="js/bootstrap.min.js"></script>
   <title>用户界面</title>
 </head>
 
@@ -32,7 +34,7 @@
           <td>项目1</td>
           <td>这是项目1的描述</td>
           <td>
-            <a href="index.jsp" class="btn btn-primary">编辑</a>
+            <a href="main.jsp" class="btn btn-primary">编辑</a>
             <button type="button" class="btn btn-danger" onclick="openDeleteModal(1)">删除</button>
           </td>
         </tr>
