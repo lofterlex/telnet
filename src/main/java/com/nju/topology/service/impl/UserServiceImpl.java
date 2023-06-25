@@ -6,6 +6,7 @@ import com.nju.topology.mapper.UserMapper;
 import com.nju.topology.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.DigestUtils;
 
 import java.util.List;
 
@@ -51,5 +52,17 @@ public class UserServiceImpl implements UserService {
         int res = userMapper.deleteUserById(id);
         if (res > 0) return Result.success("删除用户成功");
         else return Result.error("删除用户失败");
+    }
+
+    @Override
+    public Result<User> login(int studentId, String password) {
+        User user = userMapper.getUserByStudentId(studentId);
+        if (user == null) {
+            return Result.error("用户名或密码错误，登陆失败");
+        }
+        if (!user.getPassword().equals(password)) {
+            return Result.error("用户名或密码错误，登陆失败");
+        }
+        return Result.success(user);
     }
 }

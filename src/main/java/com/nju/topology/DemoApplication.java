@@ -64,6 +64,7 @@ public class DemoApplication {
 		}
 	}
 
+
 	@Async("doSetRouter")
 	public void doSetRouter(String hostIp,
 							String passwordLogin,

@@ -32,7 +32,7 @@
           <td>项目1</td>
           <td>这是项目1的描述</td>
           <td>
-            <a href="main.jsp" class="btn btn-primary">编辑</a>
+            <a href="index.jsp" class="btn btn-primary">编辑</a>
             <button type="button" class="btn btn-danger" onclick="openDeleteModal(1)">删除</button>
           </td>
         </tr>

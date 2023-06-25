@@ -29,4 +29,9 @@
     <select id="getUserList" resultType="com.nju.topology.entity.User">
         select * from user;
     </select>
+    <select id="getUserByStudentId" resultType="com.nju.topology.entity.User">
+        select *
+        from user
+        where student_id = #{studentId};
+    </select>
 </mapper>

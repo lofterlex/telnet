@@ -25,5 +25,7 @@ public interface UserService {
 
     Result<String> deleteUser(int id);
 
+    Result<User> login(int studentId, String password);
+
 
 }

@@ -35,6 +35,5 @@ public class Result<T> {
         r.code = 0;
         return r;
     }
-
 }
 
