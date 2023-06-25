@@ -1,3 +1,5 @@
+<%@page contentType="text/html"%>
+<%@page pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -40,7 +42,14 @@
               textAlign: "center",
               font: "bold 12px sans-serif"
             },
-            new go.Binding("text").makeTwoWay())
+            new go.Binding("text").makeTwoWay()),
+            {
+				      // 添加右键点击事件
+				      contextMenu: $(go.Adornment),
+				      contextClick: function(e, obj) {
+				        showContextMenu(e, obj.part);
+				      }
+				    }
         ));
 
       myDiagram.nodeTemplateMap.add("switch",
@@ -63,7 +72,14 @@
               textAlign: "center",
               font: "bold 12px sans-serif"
             },
-            new go.Binding("text").makeTwoWay())
+            new go.Binding("text").makeTwoWay()),
+            {
+				      // 添加右键点击事件
+				      contextMenu: $(go.Adornment),
+				      contextClick: function(e, obj) {
+				        showContextMenu(e, obj.part);
+				      }
+				    }
         ));
 
       myDiagram.nodeTemplateMap.add("host",
@@ -86,7 +102,14 @@
               textAlign: "center",
               font: "bold 12px sans-serif"
             },
-            new go.Binding("text").makeTwoWay())
+            new go.Binding("text").makeTwoWay()),
+            {
+				      // 添加右键点击事件
+				      contextMenu: $(go.Adornment),
+				      contextClick: function(e, obj) {
+				        showContextMenu(e, obj.part);
+				      }
+				    }
         ));
 
       // Define the Link template
@@ -131,11 +154,46 @@
       
       myDiagram.addModelChangedListener(function(event) {
 		    if (event.isTransactionFinished) {
-		      save();
+		      var model = event.model;
+			    var newLink = event.object;
+			    if (newLink instanceof go.Link) {
+			      var existingLinks = model.linkDataArray;
+			      for (var i = 0; i < existingLinks.length; i++) {
+			        var existingLink = existingLinks[i];
+			        if (existingLink.from === newLink.from && existingLink.to === newLink.to) {
+			          // 新链接与已有链接起点和终点相同，说明存在重复边
+			          alert("存在重复边");
+			          // 可以选择取消添加新链接或者删除已有的重复链接
+			          model.removeLinkData(existingLink);
+			          break;
+			        }
+			      }
+			    }
+			    save();
 		    }
 		  });
     }
+	  function showContextMenu(e, obj) {
+    // Retrieve the event object
+    if (!e) e = window.event;
 
+    // Cancel the default right-click menu
+    if (e.preventDefault) e.preventDefault();
+    e.returnValue = false;
+
+    // Determine whether the clicked object is a node or the diagram
+    var node = obj.part;
+    if (node instanceof go.Node) {
+      // Get the node data
+      var data = node.data;
+      // Get the configuration window element based on the node's category
+      var configWindow = document.getElementById(data.category + "ConfigWindow");
+      if (configWindow) {
+        // Show the configuration window (using Bootstrap modal)
+        $(configWindow).modal('show');
+      }
+    }
+  }
     function load() {
       init();
     }
@@ -149,7 +207,12 @@
       var diagramJson = document.getElementById("mySavedModel").value;
       myDiagram.model = go.Model.fromJson(diagramJson);
     }
-    
+		// 监听整个文档的右键单击事件
+		document.addEventListener("contextmenu", function(e) {
+		  // 阻止默认右键菜单
+		  e.preventDefault();
+		});
+
   </script>
 </head>
 <body onload="load()">
@@ -263,6 +326,82 @@
         </div>
       </div>
     </div>
+			 <div id="routerConfigWindow" class="modal fade">
+				  <div class="modal-dialog">
+				    <div class="modal-content">
+				      <!-- 配置窗口内容 -->
+				      <div class="modal-body">
+				        <h4>Router 配置</h4>
+									<form>
+									  <!-- 输入框 -->
+									  <div class="form-group">
+									    <label for="name"><h4>文本</h4></label>
+									    <input type="text" class="form-control" id="text1">
+									  </div>
+									  <div class="form-group">
+									    <label for="pwd"><h4>文本</h4></label>
+									    <input type="text" class="form-control" id="text2">
+									  </div>
+									  <!-- 提交按钮 -->
+									  <button type="submit" class="btn btn-info">提交</button>
+									  <!-- 取消按钮 -->
+									  <button type="button" class="btn btn-danger" data-dismiss="modal">取消</button>
+									</form>
+				      </div>
+				    </div>
+				  </div>
+			</div>
+			<!-- Switch 配置窗口 -->
+			<div id="switchConfigWindow" class="modal fade">
+			  <div class="modal-dialog">
+			    <div class="modal-content">
+			      <!-- 配置窗口内容 -->
+			      <div class="modal-body">
+			        <h4>Switch 配置</h4>
+								<form>
+								  <!-- 输入框 -->
+								  <div class="form-group">
+								    <label for="name"><h4>文本</h4></label>
+								    <input type="text" class="form-control" id="text1">
+								  </div>
+								  <div class="form-group">
+								    <label for="pwd"><h4>文本</h4></label>
+								    <input type="text" class="form-control" id="text2">
+								  </div>
+								  <!-- 提交按钮 -->
+								  <button type="submit" class="btn btn-info">提交</button>
+								  <!-- 取消按钮 -->
+								  <button type="button" class="btn btn-danger" data-dismiss="modal">取消</button>
+								</form>
+			      </div>
+			    </div>
+			  </div>
+			</div>
+			<div id="hostConfigWindow" class="modal fade">
+			  <div class="modal-dialog">
+			    <div class="modal-content">
+			    				      <!-- 配置窗口内容 -->
+			      <div class="modal-body">
+			        <h4>Host 配置</h4>
+								<form>
+								  <!-- 输入框 -->
+								  <div class="form-group">
+								    <label for="name"><h4>文本</h4></label>
+								    <input type="text" class="form-control" id="text1">
+								  </div>
+								  <div class="form-group">
+								    <label for="pwd"><h4>文本</h4></label>
+								    <input type="text" class="form-control" id="text2">
+								  </div>
+								  <!-- 提交按钮 -->
+								  <button type="submit" class="btn btn-info">提交</button>
+								  <!-- 取消按钮 -->
+								  <button type="button" class="btn btn-danger" data-dismiss="modal">取消</button>
+								</form>
+			      </div>
+			    </div>
+			  </div>
+			</div>
   </div>
 </body>
 </html>
