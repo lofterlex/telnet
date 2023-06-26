@@ -7,7 +7,7 @@ spring:
     password: root
   mvc:
     view:
-      prefix: /WEB-INF/
+      prefix: /
       suffix: .jsp
 
 mybatis-plus:
