@@ -9,7 +9,7 @@
 		<title>简洁的Bootstrap登录框设计效果</title>
 		<link rel="stylesheet" type="text/css" href="css/bootstrap-grid.min.css" />
 		<!--CSS RESET-->
-		<link href="http://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+		<link href="css/font-awesome.min.css" rel="stylesheet">
 		  <script>
 		    function login() {
 		      var username = document.getElementById("username").value;

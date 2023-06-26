@@ -1,14 +1,14 @@
 <%@page contentType="text/html"%>
 <%@page pageEncoding="UTF-8"%>
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html lang="en"> 
 <head> 
 <meta charset="utf-8" /> 
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" /> 
-  <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">  
-  <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
-  <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<title>用户管理</title>
+<link rel="stylesheet" href="css/bootstrap.min.css">  
+  <script src="js/jquery.min.js"></script>
+  <script src="js/bootstrap.min.js"></script>
+<title>用户管理</title> 
 <style type="text/css"></style> 
 </head> 
 <body>
@@ -37,7 +37,7 @@
 	<tr><td>${usr.id }</td><td>${usr.name }</td><td>${usr.getTypename() }</td><td>${usr.showtime }</td><td><a href="Update?id=${usr.id }" class="btn btn-primary">编辑</a></td>
 		<td><a href="Delete?id=${usr.id }" class="btn btn-danger">删除</a></td></tr>
 	</c:forEach>
-	</table>
+	</table>	
 	
 	<!-- 新建弹窗 -->
 	    <div class="modal fade" id="createModal" tabindex="-1" role="dialog" aria-labelledby="createModalLabel"
