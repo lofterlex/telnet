@@ -8,66 +8,238 @@
 <link rel="stylesheet" href="css/bootstrap.min.css">  
   <script src="js/jquery.min.js"></script>
   <script src="js/bootstrap.min.js"></script>
+    <script src="js/echarts.min.js"></script>
 <title>用户管理</title> 
-<style type="text/css"></style> 
+<style type="text/css"></style>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            display: flex;
+            justify-content: space-between;
+            width: 90%;
+            height: 90%;
+            margin-top: 20px;
+        }
+        .left {
+            flex: 1;
+            height: 100%;
+            margin-right: 20px;
+        }
+        .right {
+            flex: 1;
+            height: 100%;
+            margin-left: 20px;
+        }
+        .top {
+            width: 100%;
+        }
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+            .left, .right {
+                margin: 0;
+            }
+            .top {
+                margin-top: 0;
+            }
+        }
+    </style>
 </head> 
 <body>
-   <nav class="navbar navbar-inverse">
-			<div class="navbar-header">
-				<button type="button" class="navbar-toggle" 
-				data-toggle="collapse"
-				 data-target=".navbar-responsive-collapse">
-				  <span class="sr-only"> </span>
-				  <span class="icon-bar"></span>
-				    <span class="icon-bar"></span>
-				      <span class="icon-bar"></span>
-				</button>
-			</div>
-			<div class="collapse navbar-collapse navbar-responsive-collapse">
-				<ul class="nav navbar-nav">
-					<li><a href="admin.jsp">拓扑管理</a></li>
-					<li  class="active"><a href="userManage.jsp">用户管理</a></li>
-			  </ul>
-		 </div>	
-		 </nav>
-		 <h4 align="center">用户管理  <button type="button" class="btn btn-primary mb-3" data-toggle="modal" data-target="#createModal">新建</button></h4>
-	<table width="1000" align="center" border="1" cellpadding="0" cellspacing="0">
-	<tr><td>id</td><td>用户名</td><td>种类</td><td>信息</td><td>编辑</td><td>删除</td></tr>
-	<c:forEach items="${usrs }" var="usr">
-	<tr><td>${usr.id }</td><td>${usr.name }</td><td>${usr.getTypename() }</td><td>${usr.showtime }</td><td><a href="Update?id=${usr.id }" class="btn btn-primary">编辑</a></td>
-		<td><a href="Delete?id=${usr.id }" class="btn btn-danger">删除</a></td></tr>
-	</c:forEach>
-	</table>	
-	
-	<!-- 新建弹窗 -->
-	    <div class="modal fade" id="createModal" tabindex="-1" role="dialog" aria-labelledby="createModalLabel"
-      aria-hidden="true">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="createModalLabel">创建用户</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
+<div class="top">
+    <nav class="navbar navbar-inverse">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle"
+                    data-toggle="collapse"
+                    data-target=".navbar-responsive-collapse">
+                <span class="sr-only"> </span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
             </button>
-          </div>
-          <div class="modal-body">
-            <form>
-              <div class="form-group">
-                <label for="create-name">用户名</label>
-                <input type="text" class="form-control" id="create-name" placeholder="输入名称">
-              </div>
-              <div class="form-group">
-                <label for="create-description">描述</label>
-                <textarea class="form-control" id="create-description" placeholder="输入描述"></textarea>
-              </div>
-            </form>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-primary" onclick="createItem()">创建</button>
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
-          </div>
         </div>
-      </div>
+        <div class="collapse navbar-collapse navbar-responsive-collapse">
+            <ul class="nav navbar-nav">
+                <li><a href="admin.jsp">任务管理</a></li>
+                <li  class="active"><a href="userManage.jsp">用户管理</a></li>
+            </ul>
+        </div>
+    </nav>
+</div>
+<div class="container">
+    <div class="left">
+        <div class="row">
+            <div class="col-md-12">
+                <h2>用户管理  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">新建用户</button></h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <table class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <th>学号</th>
+                        <th>姓名</th>
+                        <th>分数</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>项目1</td>
+                        <td>类别1</td>
+                        <td>
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editModal">编辑</button>
+                            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal">删除</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>项目2</td>
+                        <td>类别2</td>
+                        <td>
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editModal">编辑</button>
+                            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal">删除</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>项目3</td>
+                        <td>类别3</td>
+                        <td>
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editModal">编辑</button>
+                            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal">删除</button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
+    <div class="right">
+        <div id="chart" style="width: 600px; height: 400px;"></div>
+    </div>
+</div>
+
+   <!-- 新建项目弹窗 -->
+   <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+       <div class="modal-dialog" role="document">
+           <div class="modal-content">
+               <div class="modal-header">
+                   <h4 class="modal-title" id="myModalLabel">新建项目</h4>
+                   <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+               </div>
+               <div class="modal-body">
+                   <form>
+                       <div class="form-group">
+                           <label for="name">名称</label>
+                           <input type="text" class="form-control" id="name" placeholder="请输入名称">
+                       </div>
+                       <div class="form-group">
+                           <label for="category">类别</label>
+                           <input type="text" class="form-control" id="category" placeholder="请输入类别">
+                       </div>
+                   </form>
+               </div>
+               <div class="modal-footer">
+                   <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                   <button type="button" class="btn btn-primary">保存</button>
+               </div>
+           </div>
+       </div>
+   </div>
+
+   <!-- 编辑项目弹窗 -->
+   <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+       <div class="modal-dialog" role="document">
+           <div class="modal-content">
+               <div class="modal-header">
+                   <h4 class="modal-title" id="myModalLabel">编辑项目</h4>
+                   <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+               </div>
+               <div class="modal-body">
+                   <form>
+                       <div class="form-group">
+                           <label for="name">名称</label>
+                           <input type="text" class="form-control" id="name" placeholder="请输入名称">
+                       </div>
+                       <div class="form-group">
+                           <label for="category">类别</label>
+                           <input type="text" class="form-control" id="category" placeholder="请输入类别">
+                       </div>
+                   </form>
+               </div>
+               <div class="modal-footer">
+                   <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                   <button type="button" class="btn btn-primary">保存</button>
+               </div>
+           </div>
+       </div>
+   </div>
+
+   <!-- 删除项目弹窗 -->
+   <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+       <div class="modal-dialog" role="document">
+           <div class="modal-content">
+               <div class="modal-header">
+                   <h4 class="modal-title" id="myModalLabel">确认删除</h4>
+                   <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+               </div>
+               <div class="modal-body">
+                   <p>确定要删除该项目吗？</p>
+               </div>
+               <div class="modal-footer">
+                   <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                   <button type="button" class="btn btn-danger">删除</button>
+               </div>
+           </div>
+       </div>
+   </div>
+
+   <script>
+       // 模拟学生成绩数据
+       const data = [
+           { range: '0-59', count: 10 },
+           { range: '60-69', count: 20 },
+           { range: '70-79', count: 30 },
+           { range: '80-89', count: 40 },
+           { range: '90-100', count: 50 }
+       ];
+
+       // 初始化图表
+       const chart = echarts.init(document.getElementById('chart'));
+
+       // 配置项
+       const option = {
+           title: {
+               text: '学生成绩分布'
+           },
+           tooltip: {},
+           xAxis: {
+               data: ['0-59', '60-69', '70-79', '80-89', '90-100']
+           },
+           yAxis: {},
+           series: [{
+               name: '人数',
+               type: 'bar',
+               data: data.map(item => item.count)
+           }]
+       };
+       // 使用配置项显示图表
+       chart.setOption(option);
+   </script>
 </body>
 </html>

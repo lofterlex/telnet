@@ -15,11 +15,11 @@ public class HomeController {
 
     @GetMapping("/")
     public String getIndexPage() {
-        return "main";
+        return "index";
     }
-    @GetMapping("/login")
+    @GetMapping("/main")
     public String getLoginPage() {
-        return "login";
+        return "mainS";
     }
 
     @GetMapping("/manage")
