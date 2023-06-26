@@ -82,7 +82,7 @@
     <div class="left">
         <div class="row">
             <div class="col-md-12">
-                <h2>用户管理  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">新建用户</button></h2>
+                <h2>学生管理</h2>
             </div>
         </div>
         <div class="row">
@@ -102,8 +102,8 @@
                         <td>项目1</td>
                         <td>类别1</td>
                         <td>
-                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editModal">编辑</button>
-                            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal">删除</button>
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editModal">修改</button>
+                            <button type="button" class="btn btn-warning" data-toggle="modal">查看</button>
                         </td>
                     </tr>
                     <tr>
@@ -111,8 +111,8 @@
                         <td>项目2</td>
                         <td>类别2</td>
                         <td>
-                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editModal">编辑</button>
-                            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal">删除</button>
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editModal">修改</button>
+                            <button type="button" class="btn btn-warning" data-toggle="modal">查看</button>
                         </td>
                     </tr>
                     <tr>
@@ -120,8 +120,8 @@
                         <td>项目3</td>
                         <td>类别3</td>
                         <td>
-                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editModal">编辑</button>
-                            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal">删除</button>
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editModal">修改</button>
+                            <button type="button" class="btn btn-warning" data-toggle="modal">查看</button>
                         </td>
                     </tr>
                     </tbody>
@@ -134,76 +134,25 @@
     </div>
 </div>
 
-   <!-- 新建项目弹窗 -->
-   <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-       <div class="modal-dialog" role="document">
-           <div class="modal-content">
-               <div class="modal-header">
-                   <h4 class="modal-title" id="myModalLabel">新建项目</h4>
-                   <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-               </div>
-               <div class="modal-body">
-                   <form>
-                       <div class="form-group">
-                           <label for="name">名称</label>
-                           <input type="text" class="form-control" id="name" placeholder="请输入名称">
-                       </div>
-                       <div class="form-group">
-                           <label for="category">类别</label>
-                           <input type="text" class="form-control" id="category" placeholder="请输入类别">
-                       </div>
-                   </form>
-               </div>
-               <div class="modal-footer">
-                   <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                   <button type="button" class="btn btn-primary">保存</button>
-               </div>
-           </div>
-       </div>
-   </div>
-
    <!-- 编辑项目弹窗 -->
    <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
        <div class="modal-dialog" role="document">
            <div class="modal-content">
                <div class="modal-header">
-                   <h4 class="modal-title" id="myModalLabel">编辑项目</h4>
+                   <h4 class="modal-title" id="myModalLabel">修改分数</h4>
                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                </div>
                <div class="modal-body">
                    <form>
                        <div class="form-group">
-                           <label for="name">名称</label>
-                           <input type="text" class="form-control" id="name" placeholder="请输入名称">
-                       </div>
-                       <div class="form-group">
-                           <label for="category">类别</label>
-                           <input type="text" class="form-control" id="category" placeholder="请输入类别">
+                           <label for="grade">分数</label>
+                           <input type="text" class="form-control" id="grade" placeholder="请输入分数">
                        </div>
                    </form>
                </div>
                <div class="modal-footer">
                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
                    <button type="button" class="btn btn-primary">保存</button>
-               </div>
-           </div>
-       </div>
-   </div>
-
-   <!-- 删除项目弹窗 -->
-   <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-       <div class="modal-dialog" role="document">
-           <div class="modal-content">
-               <div class="modal-header">
-                   <h4 class="modal-title" id="myModalLabel">确认删除</h4>
-                   <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-               </div>
-               <div class="modal-body">
-                   <p>确定要删除该项目吗？</p>
-               </div>
-               <div class="modal-footer">
-                   <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                   <button type="button" class="btn btn-danger">删除</button>
                </div>
            </div>
        </div>

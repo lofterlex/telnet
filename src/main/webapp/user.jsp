@@ -15,11 +15,8 @@
 <body>
 <div class="container">
   <div class="row">
-    <div class="col-md-6">
-      <h2>表名</h2>
-    </div>
-    <div class="col-md-6 text-right">
-      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">新建项目</button>
+    <div class="col-md-12">
+      <h2>用户信息  <button type="button" class="btn btn-success" data-toggle="modal" data-target="#myModal">新增用户</button></h2>
     </div>
   </div>
   <div class="row">
@@ -27,9 +24,9 @@
       <table class="table table-bordered">
         <thead>
         <tr>
-          <th>id</th>
-          <th>名称</th>
-          <th>类别</th>
+          <th>学工号</th>
+          <th>姓名</th>
+          <th>用户类别</th>
           <th>操作</th>
         </tr>
         </thead>
@@ -67,51 +64,64 @@
   </div>
 </div>
 
-<!-- 新建项目弹窗 -->
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h4 class="modal-title" id="myModalLabel">新建项目</h4>
+        <h4 class="modal-title" id="myModalLabel">新增用户</h4>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
       </div>
       <div class="modal-body">
         <form>
           <div class="form-group">
-            <label for="name">名称</label>
-            <input type="text" class="form-control" id="name" placeholder="请输入名称">
+            <label for="user-type">用户类型</label>
+            <select class="form-control" id="user-type">
+              <option value="0">0-管理员</option>
+              <option value="1">1-普通用户</option>
+            </select>
           </div>
           <div class="form-group">
-            <label for="category">类别</label>
-            <input type="text" class="form-control" id="category" placeholder="请输入类别">
+            <label for="id">学号</label>
+            <input type="text" class="form-control" id="id" placeholder="请输入学工号">
+          </div>
+          <div class="form-group">
+            <label for="name">姓名</label>
+            <input type="text" class="form-control" id="name" placeholder="请输入姓名">
+          </div>
+          <div class="form-group">
+            <label for="password">密码</label>
+            <input type="password" class="form-control" id="password" placeholder="请输入密码">
           </div>
         </form>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-        <button type="button" class="btn btn-primary">保存</button>
+        <button type="button" class="btn btn-primary">创建</button>
       </div>
     </div>
   </div>
 </div>
 
-<!-- 编辑项目弹窗 -->
 <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h4 class="modal-title" id="myModalLabel">编辑项目</h4>
+        <h4 class="modal-title" id="myModalLabel">修改用户信息</h4>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
       </div>
       <div class="modal-body">
         <form>
           <div class="form-group">
-            <label for="name">名称</label>
-            <input type="text" class="form-control" id="name" placeholder="请输入名称">
+            <label for="id">学号</label>
+            <input type="text" class="form-control" id="id" placeholder="请输入学工号">
           </div>
           <div class="form-group">
-            <label for="category">类别</label>
-            <input type="text" class="form-control" id="category" placeholder="请输入类别">
+            <label for="name">姓名</label>
+            <input type="text" class="form-control" id="name" placeholder="请输入姓名">
+          </div>
+          <div class="form-group">
+            <label for="password">密码</label>
+            <input type="password" class="form-control" id="password" placeholder="请输入密码">
           </div>
         </form>
       </div>
@@ -123,16 +133,15 @@
   </div>
 </div>
 
-<!-- 删除项目弹窗 -->
 <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h4 class="modal-title" id="myModalLabel">确认删除</h4>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
       </div>
       <div class="modal-body">
-        <p>确定要删除该项目吗？</p>
+        <p>确定要删除该用户信息吗？</p>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>

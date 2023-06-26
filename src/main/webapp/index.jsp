@@ -71,6 +71,7 @@
 								<input required name="login[password]" type="password" class="form-control" placeholder="Password" id="password"/></div>
 								<div class="form-group">
 									<button type="button" class="btn btn-default" onclick="login()">
+									<h4>登录</h4>
 									<i class="fa fa-arrow-right"></i>
 								</button>
 								</div>

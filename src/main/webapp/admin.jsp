@@ -8,7 +8,7 @@
   <link rel="stylesheet" href="css/bootstrap.min.css">  
   <script src="js/jquery.min.js"></script>
   <script src="js/bootstrap.min.js"></script>
-<title>拓扑管理</title> 
+<title>任务管理</title>
 <style type="text/css"></style> 
 </head> 
 <body>
@@ -33,7 +33,7 @@
    <div class="container">
            <div class="row">
                <div class="col-md-12">
-                   <h2>任务管理  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">新建任务</button></h2>
+                   <h2>任务管理  <button type="button" class="btn btn-success" data-toggle="modal" data-target="#myModal">新建任务</button></h2>
                </div>
            </div>
            <div class="row">
@@ -51,7 +51,7 @@
                            <td>1</td>
                            <td>项目1</td>
                            <td>
-                               <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editModal">查看</button>
+                               <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#editModal">查看</button>
                                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal">删除</button>
                            </td>
                        </tr>
@@ -59,7 +59,7 @@
                            <td>2</td>
                            <td>项目2</td>
                            <td>
-                               <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editModal">查看</button>
+                               <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#editModal">查看</button>
                                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal">删除</button>
                            </td>
                        </tr>
@@ -67,7 +67,7 @@
                            <td>3</td>
                            <td>项目3</td>
                            <td>
-                               <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editModal">查看</button>
+                               <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#editModal">查看</button>
                                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal">删除</button>
                            </td>
                        </tr>
@@ -88,18 +88,18 @@
                <div class="modal-body">
                    <form>
                        <div class="form-group">
-                           <label for="name">名称</label>
-                           <input type="text" class="form-control" id="name" placeholder="请输入名称">
+                           <label for="name">任务名称</label>
+                           <input type="text" class="form-control" id="name" placeholder="请输入任务名称">
                        </div>
                        <div class="form-group">
-                           <label for="category">类别</label>
-                           <input type="text" class="form-control" id="category" placeholder="请输入类别">
+                           <label for="category">任务详情</label>
+                           <input type="text" class="form-control" id="category" placeholder="请输入任务详情">
                        </div>
                    </form>
                </div>
                <div class="modal-footer">
                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                   <button type="button" class="btn btn-primary">保存</button>
+                   <button type="button" class="btn btn-primary">创建</button>
                </div>
            </div>
        </div>
@@ -116,12 +116,12 @@
                <div class="modal-body">
                    <form>
                        <div class="form-group">
-                           <label for="name">名称</label>
-                           <input type="text" class="form-control" id="name" placeholder="请输入名称">
+                           <label for="name">任务名称</label>
+                           <input type="text" class="form-control" id="name" placeholder="请输入任务名称">
                        </div>
                        <div class="form-group">
-                           <label for="category">类别</label>
-                           <input type="text" class="form-control" id="category" placeholder="请输入类别">
+                           <label for="category">任务详情</label>
+                           <input type="text" class="form-control" id="category" placeholder="请输入任务详情">
                        </div>
                    </form>
                </div>
