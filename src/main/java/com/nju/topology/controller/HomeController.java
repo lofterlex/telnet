@@ -19,7 +19,7 @@ public class HomeController {
     }
     @GetMapping("/main")
     public String getLoginPage() {
-        return "mainS";
+        return "main";
     }
 
     @GetMapping("/manage")

@@ -10,7 +10,7 @@ import java.util.Map;
  *
  * @Author: jiahz
  * @Date: 2023/6/24 10:56
- * @Description: 统一返回数据结构
+ * @Description: 统一返回格式
  */
 @Data
 public class Result<T> {
