@@ -24,7 +24,6 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-
     @GetMapping("/list")
     public String getUserList(Model model) {
         Result<List<User>> userList = userService.getUserList();
@@ -34,24 +33,24 @@ public class UserController {
 
 
     @PostMapping("/add")
-    public Result<String> addUser(@RequestBody User user, Model model) {
+    public String addUser(@RequestBody User user, Model model) {
         Result<String> result = userService.addUser(user);
         model.addAttribute("map", result.getMap());
-        return result;
+        return "user";
     }
 
     @PostMapping("/update")
-    public Result<String> updateUser(@RequestBody User user, Model model) {
+    public String updateUser(@RequestBody User user, Model model) {
         Result<String> result = userService.updateUser(user);
         model.addAttribute("map", result.getMap());
-        return result;
+        return "user";
     }
 
     @PostMapping("/delete")
-    public Result<String> deleteUser(@RequestParam int id, Model model) {
+    public String deleteUser(@RequestParam int id, Model model) {
         Result<String> result = userService.deleteUser(id);
         model.addAttribute("map", result.getMap());
-        return result;
+        return "user";
     }
 
 }
