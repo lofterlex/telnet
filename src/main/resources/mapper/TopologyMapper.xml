@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.nju.topology.mapper.NodeMapper">
+
+    <sql id="insertFields">
+        id, name, ip, port, type, command, topology_id
+    </sql>
+
+    <insert id="insertNode">
+        insert into node (<include refid="insertFields"></include>)
+        values (#{id}, #{name}, #{ip}, #{port},#{type},#{command},#{topology_id});
+    </insert>
+    <update id="updateNode">
+        update node
+        set id         = #{id},
+            name       = #{name},
+            ip         = #{ip},
+            port       = #{port},
+            type       = #{type},
+            command    = #{command},
+            topology_id= #{topology_id}
+        where id = #{id};
+    </update>
+
+</mapper>
