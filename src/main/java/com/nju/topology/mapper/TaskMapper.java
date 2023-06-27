@@ -17,4 +17,6 @@ import java.util.List;
 public interface TaskMapper {
 
     List<HistoryRecordDTO> getHistoryRecords(@Param("id") int id);
+
+    String getConfigurationMessage(@Param("id") int id);
 }

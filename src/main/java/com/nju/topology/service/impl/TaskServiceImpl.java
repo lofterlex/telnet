@@ -31,4 +31,14 @@ public class TaskServiceImpl implements TaskService {
             return Result.success(historyRecords);
         }
     }
+
+    @Override
+    public Result<String> getConfigurationMessage(int id) {
+        String message = taskMapper.getConfigurationMessage(id);
+        if ("".equals(message)) {
+            return Result.error("配置信息为空，请重新配置");
+        } else {
+            return Result.success(message);
+        }
+    }
 }

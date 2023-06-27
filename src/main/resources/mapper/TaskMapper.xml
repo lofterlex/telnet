@@ -12,4 +12,11 @@
         WHERE task.user_id = #{id}
           and task.topology_id = topology.id
     </select>
+
+
+    <select id="getConfigurationMessage" resultType="string">
+        select configuration
+        from topolog
+        where id = #{id}
+    </select>
 </mapper>

@@ -16,4 +16,5 @@ public interface TaskService {
 
     Result<List<HistoryRecordDTO>> getHistoryList(int userId);
 
+    Result<String> getConfigurationMessage(int id);
 }
