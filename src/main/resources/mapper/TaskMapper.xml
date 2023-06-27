@@ -16,7 +16,7 @@
 
     <select id="getConfigurationMessage" resultType="string">
         select configuration
-        from topolog
+        from topology
         where id = #{id}
     </select>
 </mapper>

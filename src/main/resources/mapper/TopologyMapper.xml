@@ -13,6 +13,7 @@
         insert into node (<include refid="insertFields"></include>)
         values (#{id}, #{name}, #{ip}, #{port},#{type},#{command},#{topology_id});
     </insert>
+
     <update id="updateNode">
         update node
         set id         = #{id},

@@ -29,7 +29,7 @@ public class TaskController {
         return historyList;
     }
 
-    @GetMapping("/configmsg/{id}")
+    @GetMapping("/config")
     public Result<String> getConfigMsg(@RequestParam int id) {
         Result<String> message = taskService.getConfigurationMessage(id);
         return message;

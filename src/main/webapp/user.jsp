@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html"%>
 <%@page pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -31,33 +32,35 @@
         </tr>
         </thead>
         <tbody>
-        <tr>
-          <td>1</td>
-          <td>项目1</td>
-          <td>类别1</td>
-          <td>
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editModal">编辑</button>
-            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal">删除</button>
-          </td>
-        </tr>
-        <tr>
-          <td>2</td>
-          <td>项目2</td>
-          <td>类别2</td>
-          <td>
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editModal">编辑</button>
-            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal">删除</button>
-          </td>
-        </tr>
-        <tr>
-          <td>3</td>
-          <td>项目3</td>
-          <td>类别3</td>
-          <td>
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editModal">编辑</button>
-            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal">删除</button>
-          </td>
-        </tr>
+        <c:forEach items="${map.data}" var="user">
+          <tr>
+            <td>${user.studentId}</td>
+            <td>${user.name}</td>
+            <td>${user.type}</td>
+            <td>
+              <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editModal">编辑</button>
+              <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal">删除</button>
+            </td>
+          </tr>
+        </c:forEach>
+<%--        <tr>--%>
+<%--          <td>2</td>--%>
+<%--          <td>项目2</td>--%>
+<%--          <td>类别2</td>--%>
+<%--          <td>--%>
+<%--            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editModal">编辑</button>--%>
+<%--            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal">删除</button>--%>
+<%--          </td>--%>
+<%--        </tr>--%>
+<%--        <tr>--%>
+<%--          <td>3</td>--%>
+<%--          <td>项目3</td>--%>
+<%--          <td>类别3</td>--%>
+<%--          <td>--%>
+<%--            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editModal">编辑</button>--%>
+<%--            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal">删除</button>--%>
+<%--          </td>--%>
+<%--        </tr>--%>
         </tbody>
       </table>
     </div>
@@ -150,5 +153,19 @@
     </div>
   </div>
 </div>
+
+<script type="text/javascript">
+  $.ajax({
+    type: "get",
+    url: "/user/list",
+    data: {
+
+    },
+    dataType: "json",
+    success: function (data) {
+      console.log(data);
+    }
+  });
+</script>
 </body>
 </html>
