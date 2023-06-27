@@ -17,11 +17,11 @@ public class Result<T> {
 
     private Map<String, Object> map = new HashMap<>();
 
-    private Integer code; //编码：1成功，0失败
-
-    private String msg; //信息
-
-    private T data; //数据
+//    private Integer code; //编码：1成功，0失败
+//
+//    private String msg; //信息
+//
+//    private T data; //数据
 
 
     public static <T> Result<T> success(T object) {
