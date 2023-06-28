@@ -29,14 +29,14 @@ public class TaskController {
     @GetMapping("/history")
     public Result<List<HistoryRecordDTO>> getHistoryList(@RequestParam int id, Model model) {
         Result<List<HistoryRecordDTO>> historyList = taskService.getHistoryList(id);
-        model.addAttribute("map", historyList.getMap());
+//        model.addAttribute("map", historyList.getMap());
         return historyList;
     }
 
     @GetMapping("/config")
     public Result<String> getConfigMsg(@RequestParam int id, Model model) {
         Result<String> message = taskService.getConfigurationMessage(id);
-        model.addAttribute("map", message.getMap());
+//        model.addAttribute("map", message.getMap());
         return message;
     }
 }

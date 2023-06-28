@@ -15,31 +15,26 @@ import java.util.Map;
 @Data
 public class Result<T> {
 
-    private Map<String, Object> map = new HashMap<>();
+    private Integer code; //编码：1成功，0失败
 
-//    private Integer code; //编码：1成功，0失败
-//
-//    private String msg; //信息
-//
-//    private T data; //数据
+    private String msg; //信息
+
+    private T data; //数据
 
 
     public static <T> Result<T> success(T object) {
         Result<T> r = new Result<T>();
-        r.map.put("code", 1);
-        r.map.put("data", object);
+        r.data = object;
+        r.code = 1;
         return r;
     }
 
     public static <T> Result<T> error(String msg) {
         Result r = new Result();
-        r.map.put("msg", msg);
-        r.map.put("code", 0);
+        r.msg = msg;
+        r.code = 0;
         return r;
     }
 
-    public T getData() {
-        return data;
-    }
 }
 
