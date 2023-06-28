@@ -11,8 +11,7 @@ import lombok.Data;
  */
 @Data
 public class Task {
-    private int id;
-    private int userId;
-    private int topologyId;
-    private int score;
+    private Integer id;
+    private String name;
+    private String description;
 }

@@ -9,7 +9,7 @@
   <script src="js/jquery.min.js"></script>
   <script src="js/bootstrap.min.js"></script>
     <script src="js/echarts.min.js"></script>
-<title>用户管理</title> 
+<title>学生成绩管理</title>
 <style type="text/css"></style>
     <style>
         * {
@@ -73,7 +73,7 @@
         <div class="collapse navbar-collapse navbar-responsive-collapse">
             <ul class="nav navbar-nav">
                 <li><a href="admin.jsp">任务管理</a></li>
-                <li  class="active"><a href="userManage.jsp">用户管理</a></li>
+                <li  class="active"><a href="userManage.jsp">成绩管理</a></li>
             </ul>
         </div>
     </nav>
@@ -82,7 +82,7 @@
     <div class="left">
         <div class="row">
             <div class="col-md-12">
-                <h2>学生管理</h2>
+                <h2>成绩管理</h2>
             </div>
         </div>
         <div class="row">

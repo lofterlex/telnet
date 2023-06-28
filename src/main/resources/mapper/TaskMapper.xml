@@ -7,10 +7,9 @@
 
 
     <select id="getHistoryRecords" resultType="com.nju.topology.dto.HistoryRecordDTO">
-        SELECT topology.id, topology.type, task.score
-        FROM topology JOIN task
-        WHERE task.user_id = #{id}
-          and task.topology_id = topology.id
+        SELECT id, type, score
+        FROM topology
+        WHERE user_id = #{id}
     </select>
 
 
@@ -18,5 +17,13 @@
         select configuration
         from topology
         where id = #{id}
+    </select>
+
+    <select id="getScoreList" resultType="com.nju.topology.dto.ScoreListDTO">
+        SELECT topology.id, user.student_id, user.`name`, topology.score
+        FROM topology
+                 JOIN user
+        WHERE topology.task_id = #{id}
+          and topology.user_id = user.id;
     </select>
 </mapper>
