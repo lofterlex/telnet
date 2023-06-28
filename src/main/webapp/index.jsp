@@ -28,7 +28,8 @@
                     return response.json();
                 })
                 .then(function (data) {
-                    if (data.map.code === 0) {
+                    console.log(data)
+                    if (data.code === 0) {
                         alert("登陆失败");
                     } else {
                         if (data.map.data.type === 0) {

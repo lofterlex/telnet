@@ -2,6 +2,7 @@ package com.nju.topology.service.impl;
 
 import com.nju.topology.common.Result;
 import com.nju.topology.dto.HistoryRecordDTO;
+import com.nju.topology.entity.Task;
 import com.nju.topology.mapper.TaskMapper;
 import com.nju.topology.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,5 +41,24 @@ public class TaskServiceImpl implements TaskService {
         } else {
             return Result.success(message);
         }
+    }
+
+    @Override
+    public Result<String> addTask(String name, String desc) {
+        Task task = new Task();
+        task.setName(name);
+        task.setDescription(desc);
+        int res = taskMapper.insert(task);
+        if (res > 0) {
+            return Result.success("新增任务成功");
+        } else {
+            return Result.error("新增任务失败");
+        }
+    }
+
+    @Override
+    public Result<List<Task>> getTaskList() {
+        List<Task> tasks = taskMapper.selectList(null);
+        return Result.success(tasks);
     }
 }

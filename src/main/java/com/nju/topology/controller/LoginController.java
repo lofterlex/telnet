@@ -5,6 +5,8 @@ import com.nju.topology.entity.User;
 import com.nju.topology.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpRequest;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -29,12 +31,17 @@ public class LoginController {
     private UserService userService;
 
     @PostMapping("/login")
-    public Result<User> login(@RequestBody User user, HttpServletRequest request) {
+    public ModelAndView login(@RequestBody User user, HttpServletRequest request) {
         Result<User> result = userService.login(user.getStudentId(), user.getPassword());
         if (result.getData() != null) {
             request.getSession().setAttribute("user", result.getData().getId());
         }
         ModelAndView mv = new ModelAndView();
-        return result;
+        if (result.getData().getType() == 0) {
+            mv.setViewName("admin");
+        } else {
+            mv.setViewName("user");
+        }
+        return mv;
     }
 }

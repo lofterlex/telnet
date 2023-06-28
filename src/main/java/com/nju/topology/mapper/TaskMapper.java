@@ -1,6 +1,8 @@
 package com.nju.topology.mapper;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.nju.topology.dto.HistoryRecordDTO;
+import com.nju.topology.entity.Task;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -14,9 +16,10 @@ import java.util.List;
  * @Description:
  */
 @Mapper
-public interface TaskMapper {
+public interface TaskMapper extends BaseMapper<Task> {
 
     List<HistoryRecordDTO> getHistoryRecords(@Param("id") int id);
 
     String getConfigurationMessage(@Param("id") int id);
+
 }

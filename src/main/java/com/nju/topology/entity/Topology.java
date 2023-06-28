@@ -14,4 +14,7 @@ public class Topology {
     private int id;
     private int type;
     private String configuration;
+    private int userId;
+    private int taskId;
+    private int score;
 }

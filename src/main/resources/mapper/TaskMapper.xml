@@ -7,10 +7,9 @@
 
 
     <select id="getHistoryRecords" resultType="com.nju.topology.dto.HistoryRecordDTO">
-        SELECT topology.id, topology.type, task.score
-        FROM topology JOIN task
-        WHERE task.user_id = #{id}
-          and task.topology_id = topology.id
+        SELECT id, type, score
+        FROM topology
+        WHERE user_id = #{id}
     </select>
 
 
