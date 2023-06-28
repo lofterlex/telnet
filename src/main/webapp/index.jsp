@@ -23,7 +23,7 @@
 		        window.location.href = "admin.jsp";
 		      } else {
 		        // 普通用户账号登录，跳转到用户页面
-		        window.location.href = "user.jsp";
+		        window.location.href = "toUser";
 		      }
 		    }
   		</script>

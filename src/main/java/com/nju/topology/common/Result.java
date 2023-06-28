@@ -35,5 +35,9 @@ public class Result<T> {
         r.code = 0;
         return r;
     }
+
+    public T getData() {
+        return data;
+    }
 }
 

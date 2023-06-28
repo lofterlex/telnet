@@ -239,11 +239,12 @@
 			      var existingLinks = model.linkDataArray;
 			      for (var i = 0; i < existingLinks.length; i++) {
 			        var existingLink = existingLinks[i];
-			        if (existingLink.from === newLink.from && existingLink.to === newLink.to) {
+			        if ((existingLink.from === newLink.from && existingLink.to === newLink.to)
+							|| (existingLink.from === newLink.to && existingLink.to === newLink.from)) {
 			          // 新链接与已有链接起点和终点相同，说明存在重复边
 			          alert("存在重复边");
 			          // 可以选择取消添加新链接或者删除已有的重复链接
-			          model.removeLinkData(existingLink);
+			          model.removeLinkData(newLink);
 			          break;
 			        }
 			      }
@@ -277,10 +278,10 @@
       init();
     }
 
-		function save() {
+	function save() {
 		  var diagramJson = myDiagram.model.toJson();
 		  console.log(diagramJson);
-		}
+	}
 
     function loadFromSave() {
       var diagramJson = document.getElementById("mySavedModel").value;
@@ -550,5 +551,7 @@
 			  </div>
 			</div>
   </div>
+	</div>
+	  </div>
 </body>
 </html>
