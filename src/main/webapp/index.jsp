@@ -212,8 +212,8 @@
                     // 处理响应
                     console.log(response);
                     if(response.toString() === 'admin'){
-                        window.location.href = 'admin.jsp';
-                    }else {
+                        window.location.href = 'toTask';
+                    } else {
                         window.location.href = 'toUser';
                     }
                 },
