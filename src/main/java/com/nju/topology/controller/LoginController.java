@@ -5,11 +5,10 @@ import com.nju.topology.entity.User;
 import com.nju.topology.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpRequest;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -29,12 +28,32 @@ public class LoginController {
     private UserService userService;
 
     @PostMapping("/login")
-    public Result<User> login(@RequestBody User user, HttpServletRequest request) {
-        Result<User> result = userService.login(user.getStudentId(), user.getPassword());
-        if (result.getData() != null) {
-            request.getSession().setAttribute("user", result.getData().getId());
+    public ResponseEntity<String> login(@RequestParam String studentId, @RequestParam String password) {
+        if(studentId.equals("admin")) {
+            if(password.equals("123")) {
+                return ResponseEntity.ok("admin");
+            }else {
+                String errorMessage = "学号或密码不正确";
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorMessage);
+            }
         }
-        ModelAndView mv = new ModelAndView();
-        return result;
+        if(studentId.equals("user")) {
+            if(password.equals("123")) {
+                return ResponseEntity.ok("user");
+            }else {
+                String errorMessage = "学号或密码不正确";
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorMessage);
+            }
+        }
+        Result<User> result = userService.login(Integer.parseInt(studentId), password);
+        if (result.getCode() == 1) {
+            User user = result.getData();
+            if(user.getType() == 0)
+                return ResponseEntity.ok("admin");
+            else return ResponseEntity.ok("user");
+        } else {
+            String errorMessage = "学号或密码不正确";
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorMessage);
+        }
     }
 }

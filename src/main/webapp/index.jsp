@@ -7,39 +7,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>登录</title>
-    <link rel="stylesheet" type="text/css" href="css/bootstrap-grid.min.css"/>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
     <!--CSS RESET-->
     <link href="css/font-awesome.min.css" rel="stylesheet">
-    <script>
-        function login() {
-            var data = {
-                studentId: document.getElementById("studentId").value,
-                password: document.getElementById("password").value
-            };
 
-            fetch('/login', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(data)
-            })
-                .then(function (response) {
-                    return response.json();
-                })
-                .then(function (data) {
-                    if (data.map.code === 0) {
-                        alert("登陆失败");
-                    } else {
-                        if (data.map.data.type === 0) {
-                            window.location.href = "admin.jsp";
-                        } else {
-                            window.location.href = "toUser";
-                        }
-                    }
-                });
-        }
-    </script>
     <style>
         .demo {
             padding: 20px 0;
@@ -175,33 +148,86 @@
         .form-horizontal .create_account:hover {
             color: #7AB6B6;
             text-decoration: none;
-        }</style>
+        }
+
+        .alert {
+            position: fixed;
+            top: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 9999;
+            padding: 10px;
+            border-radius: 5px;
+            background-color: #f2dede;
+            color: #a94442;
+        }
+    </style>
 </head>
 <body>
 <div class="demo form-bg">
     <div class="container">
         <div class="row">
             <div class="col-md-offset-4 col-md-4 col-sm-offset-3 col-sm-6">
-                <form class="form-horizontal">
+                <form class="form-horizontal" id="loginForm">
                     <div class="heading">登录</div>
                     <div class="form-group">
                         <i class="fa fa-user"></i>
-                        <input required name="studentId" class="form-control" placeholder="用户名"
-                               id="studentId">
+                        <label for="studentId">
+                        </label><input class="form-control" placeholder="用户名" type="text"
+                                                              id="studentId">
                     </div>
                     <div class="form-group">
                         <i class="fa fa-lock"></i>
-                        <input required name="studentId" type="password" class="form-control"
-                               placeholder="密码" id="password"/></div>
+                        <label for="password">
+                        </label><input type="password" class="form-control"
+                                                             placeholder="密码" id="password"/></div>
                     <div class="form-group">
-                        <button type="button" class="btn btn-default" onclick="login()">
+                        <button type="submit" class="btn btn-default">
                             <h4>登录</h4>
-                            <i class="fa fa-arrow-right"></i>
                         </button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
+</div>
+<div id="alert" class="alert alert-danger" style="display:none;">
+    登录失败，请检查用户名和密码是否正确。
+</div>
+<script>
+    $(document).ready(function() {
+        // 监听表单提交事件
+        $('#loginForm').submit(function(event) {
+            event.preventDefault(); // 阻止表单默认提交行为
+            const studentId = $('#studentId').val();
+            const password = $('#password').val();
+            $.ajax({
+                url: '/login',
+                method: 'POST',
+                data: {
+                    studentId:studentId,
+                    password:password
+                },
+                success: function(response) {
+                    // 处理响应
+                    console.log(response);
+                    if(response.toString() === 'admin'){
+                        window.location.href = 'admin.jsp';
+                    }else {
+                        window.location.href = 'toUser';
+                    }
+                },
+                error: function(error) {
+                    console.log(error);
+                    $('#password').val('');
+                    $('#alert').fadeIn();
+                    setTimeout(function() {
+                        $('#alert').fadeOut();
+                    }, 3000);
+                }
+            });
+        });
+    });
+</script>
 </body>
 </html>
