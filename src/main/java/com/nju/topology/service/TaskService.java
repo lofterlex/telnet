@@ -26,4 +26,6 @@ public interface TaskService {
 
     Result<List<ScoreListDTO>> getScoreList(int id);
 
+    Result<Task> getTaskById(int id);
+
 }

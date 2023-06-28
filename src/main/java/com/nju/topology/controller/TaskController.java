@@ -31,6 +31,7 @@ public class TaskController {
     @Autowired
     private TaskService taskService;
 
+    // 主页面（历史记录）：获取历史记录
     @GetMapping("/history")
     public ResponseEntity<List<HistoryRecordDTO>> getHistoryList(@RequestParam int id) {
         Result<List<HistoryRecordDTO>> result = taskService.getHistoryList(id);
@@ -39,6 +40,7 @@ public class TaskController {
         else return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(result.getData());
     }
 
+    // 主页面（历史记录）：查看配置
     @GetMapping("/config")
     public ResponseEntity<String> getConfigMsg(@RequestParam int id) {
         Result<String> result = taskService.getConfigurationMessage(id);
@@ -47,6 +49,7 @@ public class TaskController {
         else return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(result.getData());
     }
 
+    // 任务管理页面：新增任务
     @PostMapping("/addTask")
     public ResponseEntity<String> addTask(@RequestParam String name,
                                           @RequestParam String desc) {
@@ -56,6 +59,7 @@ public class TaskController {
         else return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(result.getData());
     }
 
+    // 任务管理页面：获取任务列表
     @GetMapping("/toTask")
     public ModelAndView getTaskList() {
         Result<List<Task>> result = taskService.getTaskList();
@@ -65,6 +69,7 @@ public class TaskController {
         return mv;
     }
 
+    // 成绩管理页面：获取成绩列表
     @GetMapping("/toScore")
     public ModelAndView getScoreList(@RequestParam int id) {
         // 入参为task_id
@@ -76,6 +81,12 @@ public class TaskController {
         return mv;
     }
 
-
-
+    // 主页面：作业说明
+    @GetMapping("/getTask")
+    public ResponseEntity<Task> getTaskById(@RequestParam int id) {
+        Result<Task> result = taskService.getTaskById(id);
+        if (result.getCode() == 1)
+            return ResponseEntity.ok(result.getData());
+        else return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(result.getData());
+    }
 }

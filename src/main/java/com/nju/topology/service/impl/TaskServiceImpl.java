@@ -1,5 +1,6 @@
 package com.nju.topology.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.nju.topology.common.Result;
 import com.nju.topology.dto.HistoryRecordDTO;
 import com.nju.topology.dto.ScoreListDTO;
@@ -9,6 +10,7 @@ import com.nju.topology.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.Wrapper;
 import java.util.List;
 
 /**
@@ -67,6 +69,18 @@ public class TaskServiceImpl implements TaskService {
     public Result<List<ScoreListDTO>> getScoreList(int id) {
         List<ScoreListDTO> scoreList = taskMapper.getScoreList(id);
         return Result.success(scoreList);
+    }
+
+    @Override
+    public Result<Task> getTaskById(int id) {
+        QueryWrapper<Task> wrapper = new QueryWrapper<>();
+        wrapper.eq("id", id);
+        Task task = taskMapper.selectOne(wrapper);
+        if (task == null) {
+            return Result.error("获取任务失败");
+        } else {
+            return Result.success(task);
+        }
     }
 
 }
