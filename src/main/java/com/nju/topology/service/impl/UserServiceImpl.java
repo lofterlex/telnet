@@ -32,12 +32,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Result<List<User>> getUserList() {
-        List<User> userList = userMapper.getUserList();
-        if (userList != null) {
-            return Result.success(userList);
-        } else {
-            return Result.error("返回用户列表失败");
-        }
+        List<User> res = userMapper.getUserList();
+        return Result.success(res);
     }
 
     @Override

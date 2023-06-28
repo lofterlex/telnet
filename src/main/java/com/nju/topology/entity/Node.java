@@ -1,5 +1,7 @@
 package com.nju.topology.entity;
 
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.sun.org.apache.xpath.internal.operations.Or;
 import lombok.Data;
 
@@ -20,5 +22,5 @@ public class Node {
     private int port;
     private int type;
     private String command;
-    private int topologyId;
+    private int topology_id;
 }
