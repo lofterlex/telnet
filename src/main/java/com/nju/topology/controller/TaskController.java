@@ -2,6 +2,7 @@ package com.nju.topology.controller;
 
 import com.nju.topology.common.Result;
 import com.nju.topology.dto.HistoryRecordDTO;
+import com.nju.topology.dto.ScoreListDTO;
 import com.nju.topology.entity.Task;
 import com.nju.topology.entity.Topology;
 import com.nju.topology.entity.User;
@@ -64,10 +65,17 @@ public class TaskController {
         return mv;
     }
 
-//    @GetMapping("/toScore")
-//    public ModelAndView getScoreList(@RequestParam int id) {
-//
-//    }
+    @GetMapping("/toScore")
+    public ModelAndView getScoreList(@RequestParam int id) {
+        // 入参为task_id
+        Result<List<ScoreListDTO>> result = taskService.getScoreList(id);
+        System.out.println(result.getData());
+        ModelAndView mv = new ModelAndView();
+        mv.setViewName("userManage");
+        mv.addObject("scoreList", result.getData());
+        return mv;
+    }
+
 
 
 }

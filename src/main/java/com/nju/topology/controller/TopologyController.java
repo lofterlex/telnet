@@ -3,12 +3,12 @@ package com.nju.topology.controller;
 import com.nju.topology.common.Result;
 import com.nju.topology.entity.Node;
 import com.nju.topology.service.NodeService;
+import com.nju.topology.service.TopologyService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * ClassName: TopologyController
@@ -18,13 +18,23 @@ import org.springframework.web.bind.annotation.RestController;
  * @Description:
  */
 @Controller
-@RequestMapping("/topolpgy")
 public class TopologyController {
 
     @Autowired
     private NodeService nodeService;
-    @PostMapping("/insert")
+    @Autowired
+    private TopologyService topologyService;
+
+    @PostMapping("/addNode")
      public Result<String> InsertNode(@RequestBody Node node){
             return nodeService.addNode(node);
      }
+
+     @PostMapping("/updateScore")
+    public ResponseEntity<String> updateScore(@RequestParam int id, @RequestParam int score) {
+        Result<String> result = topologyService.updateScore(id, score);
+        if (result.getCode() == 1)
+            return ResponseEntity.ok(result.getData());
+        else return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(result.getData());
+    }
 }

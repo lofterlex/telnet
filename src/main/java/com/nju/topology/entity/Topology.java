@@ -11,10 +11,10 @@ import lombok.Data;
  */
 @Data
 public class Topology {
-    private int id;
-    private int type;
+    private Integer id;
+    private Integer type;
     private String configuration;
-    private int userId;
-    private int taskId;
-    private int score;
+    private Integer userId;
+    private Integer taskId;
+    private Integer score;
 }

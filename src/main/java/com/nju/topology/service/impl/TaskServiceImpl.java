@@ -2,6 +2,7 @@ package com.nju.topology.service.impl;
 
 import com.nju.topology.common.Result;
 import com.nju.topology.dto.HistoryRecordDTO;
+import com.nju.topology.dto.ScoreListDTO;
 import com.nju.topology.entity.Task;
 import com.nju.topology.mapper.TaskMapper;
 import com.nju.topology.service.TaskService;
@@ -61,4 +62,11 @@ public class TaskServiceImpl implements TaskService {
         List<Task> tasks = taskMapper.selectList(null);
         return Result.success(tasks);
     }
+
+    @Override
+    public Result<List<ScoreListDTO>> getScoreList(int id) {
+        List<ScoreListDTO> scoreList = taskMapper.getScoreList(id);
+        return Result.success(scoreList);
+    }
+
 }

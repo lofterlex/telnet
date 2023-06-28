@@ -16,11 +16,11 @@ import java.time.Period;
  */
 @Data
 public class Node {
-    private int id;
+    private Integer id;
     private String name;
     private String ip;
-    private int port;
-    private int type;
+    private Integer port;
+    private Integer type;
     private String command;
-    private int topology_id;
+    private Integer topology_id;
 }

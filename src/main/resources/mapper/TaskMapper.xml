@@ -18,4 +18,12 @@
         from topology
         where id = #{id}
     </select>
+
+    <select id="getScoreList" resultType="com.nju.topology.dto.ScoreListDTO">
+        SELECT topology.id, user.student_id, user.`name`, topology.score
+        FROM topology
+                 JOIN user
+        WHERE topology.task_id = #{id}
+          and topology.user_id = user.id;
+    </select>
 </mapper>
