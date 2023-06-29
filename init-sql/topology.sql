@@ -11,7 +11,7 @@
  Target Server Version : 80032
  File Encoding         : 65001
 
- Date: 28/06/2023 23:46:34
+ Date: 29/06/2023 21:09:59
 */
 
 SET NAMES utf8mb4;
@@ -27,18 +27,22 @@ CREATE TABLE `node` (
   `ip` varchar(255) DEFAULT NULL,
   `port` int DEFAULT NULL,
   `type` int DEFAULT NULL COMMENT '0-router; 1-switch; 2-computer',
-  `command` varchar(255) DEFAULT NULL,
-  `topology_id` int NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  `topology_id` int NOT NULL DEFAULT '-1',
+  PRIMARY KEY (`id`,`topology_id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- ----------------------------
 -- Records of node
 -- ----------------------------
 BEGIN;
-INSERT INTO `node` (`id`, `name`, `ip`, `port`, `type`, `command`, `topology_id`) VALUES (1, 'RouterA', '192.168.12.1', 80, 0, NULL, 1);
-INSERT INTO `node` (`id`, `name`, `ip`, `port`, `type`, `command`, `topology_id`) VALUES (2, 'SwitchB', '192.168.12.2', 79, 1, NULL, 1);
-INSERT INTO `node` (`id`, `name`, `ip`, `port`, `type`, `command`, `topology_id`) VALUES (3, 'ComputerC', '192.168.12.3', 77, 2, NULL, 1);
+INSERT INTO `node` (`id`, `name`, `ip`, `port`, `type`, `topology_id`) VALUES (1, 'router1', '123', 123, 0, -1);
+INSERT INTO `node` (`id`, `name`, `ip`, `port`, `type`, `topology_id`) VALUES (1, 'RouterA', '192.168.12.1', 80, 0, 1);
+INSERT INTO `node` (`id`, `name`, `ip`, `port`, `type`, `topology_id`) VALUES (1, '123', '123', 123, 123, 2);
+INSERT INTO `node` (`id`, `name`, `ip`, `port`, `type`, `topology_id`) VALUES (2, 'SwitchB', '192.168.12.2', 79, 1, 1);
+INSERT INTO `node` (`id`, `name`, `ip`, `port`, `type`, `topology_id`) VALUES (2, '123', '123', 123, 123, 2);
+INSERT INTO `node` (`id`, `name`, `ip`, `port`, `type`, `topology_id`) VALUES (3, 'ComputerC', '192.168.12.3', 77, 2, 1);
+INSERT INTO `node` (`id`, `name`, `ip`, `port`, `type`, `topology_id`) VALUES (4, 'test', 'test', 1, 1, 1);
+INSERT INTO `node` (`id`, `name`, `ip`, `port`, `type`, `topology_id`) VALUES (5, 'test', 'test', 1, 1, -1);
 COMMIT;
 
 -- ----------------------------
@@ -56,8 +60,8 @@ CREATE TABLE `task` (
 -- Records of task
 -- ----------------------------
 BEGIN;
-INSERT INTO `task` (`id`, `name`, `description`) VALUES (1, 'static拓扑配置', '连接静态拓扑');
-INSERT INTO `task` (`id`, `name`, `description`) VALUES (2, 'rip', 'rip');
+INSERT INTO `task` (`id`, `name`, `description`) VALUES (1, 'ospf', 'OSPF任务描述');
+INSERT INTO `task` (`id`, `name`, `description`) VALUES (2, 'static', 'static任务描述');
 COMMIT;
 
 -- ----------------------------
@@ -67,20 +71,21 @@ DROP TABLE IF EXISTS `topology`;
 CREATE TABLE `topology` (
   `id` int NOT NULL AUTO_INCREMENT COMMENT '拓扑id',
   `type` int DEFAULT NULL COMMENT '0-Static; 1-RIP; 2-OSPF',
-  `configuration` varchar(255) DEFAULT NULL COMMENT '配置信息',
+  `configuration` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci COMMENT '配置信息',
   `user_id` int DEFAULT NULL,
   `task_id` int DEFAULT NULL,
-  `score` int DEFAULT NULL,
+  `score` int DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- ----------------------------
 -- Records of topology
 -- ----------------------------
 BEGIN;
-INSERT INTO `topology` (`id`, `type`, `configuration`, `user_id`, `task_id`, `score`) VALUES (1, 2, '#配置信息', 1, 1, 88);
+INSERT INTO `topology` (`id`, `type`, `configuration`, `user_id`, `task_id`, `score`) VALUES (1, 2, '{ \"class\": \"GraphLinksModel\",\n  \"nodeDataArray\": [ \n{\"key\":\"router1\", \"category\":\"router\", \"text\":\"Router 1\", \"loc\":\"0 0\"},\n{\"key\":\"switch1\", \"category\":\"switch\", \"text\":\"Switch 1\", \"loc\":\"150 0\"},\n{\"key\":\"host1\", \"category\":\"host\", \"text\":\"Host 1\", \"loc\":\"300 0\"},\n{\"key\":\"host2\", \"category\":\"host\", \"text\":\"Host 2\", \"loc\":\"300 100\"}\n ],\n  \"linkDataArray\": [ \n{\"from\":\"router1\", \"to\":\"switch1\"},\n{\"from\":\"switch1\", \"to\":\"host1\"},\n{\"from\":\"switch1\", \"to\":\"host2\"}\n ]}', 1, 1, 99);
 INSERT INTO `topology` (`id`, `type`, `configuration`, `user_id`, `task_id`, `score`) VALUES (2, 1, 'config', 1, 1, 77);
 INSERT INTO `topology` (`id`, `type`, `configuration`, `user_id`, `task_id`, `score`) VALUES (3, 0, 'config', 2, 1, 66);
+INSERT INTO `topology` (`id`, `type`, `configuration`, `user_id`, `task_id`, `score`) VALUES (4, 1, '123', 2, 1, 93);
 COMMIT;
 
 -- ----------------------------
@@ -94,15 +99,16 @@ CREATE TABLE `user` (
   `password` varchar(255) DEFAULT NULL,
   `type` int DEFAULT NULL COMMENT '0-管理员；1-用户',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- ----------------------------
 -- Records of user
 -- ----------------------------
 BEGIN;
 INSERT INTO `user` (`id`, `student_id`, `name`, `password`, `type`) VALUES (1, 52202201, '张三', '123456', 0);
-INSERT INTO `user` (`id`, `student_id`, `name`, `password`, `type`) VALUES (2, 52202202, '李四', '123123', 1);
+INSERT INTO `user` (`id`, `student_id`, `name`, `password`, `type`) VALUES (2, 52202202, '哈哈', '123123', 1);
 INSERT INTO `user` (`id`, `student_id`, `name`, `password`, `type`) VALUES (7, 52202203, 'Bret', '321321', 0);
+INSERT INTO `user` (`id`, `student_id`, `name`, `password`, `type`) VALUES (9, 52202205, 'jhz222', '123123', 1);
 COMMIT;
 
 SET FOREIGN_KEY_CHECKS = 1;
