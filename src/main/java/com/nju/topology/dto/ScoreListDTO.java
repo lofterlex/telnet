@@ -15,4 +15,8 @@ public class ScoreListDTO {
     private int studentId;
     private String name;
     private int score;
+
+    public int getScore() {
+        return score;
+    }
 }

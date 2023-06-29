@@ -15,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -83,10 +84,29 @@ public class TaskController {
     public ModelAndView getScoreList(@RequestParam int id) {
         // 入参为task_id
         Result<List<ScoreListDTO>> result = taskService.getScoreList(id);
-        System.out.println(result.getData());
         ModelAndView mv = new ModelAndView();
         mv.setViewName("userManage");
         mv.addObject("scoreList", result.getData());
+        int[] score_count = new int[5];
+        for(ScoreListDTO dto : result.getData()){
+            int score = dto.getScore();
+            if(score < 60){
+                score_count[0]++;
+            }else if (score < 70){
+                score_count[1]++;
+            }else if(score < 80){
+                score_count[2]++;
+            }else if(score < 90){
+                score_count[3]++;
+            }else {
+                score_count[4]++;
+            }
+        }
+        ArrayList<Integer> scoreCount = new ArrayList<>();
+        for(int i : score_count){
+            scoreCount.add(i);
+        }
+        mv.addObject("scoreCount", scoreCount);
         return mv;
     }
 

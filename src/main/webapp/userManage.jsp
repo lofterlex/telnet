@@ -158,14 +158,15 @@
 
 <script>
     // 模拟学生成绩数据
+    let scoreCount = ${scoreCount};
     const data = [
-        {range: '0-59', count: 10},
-        {range: '60-69', count: 20},
-        {range: '70-79', count: 30},
-        {range: '80-89', count: 40},
-        {range: '90-100', count: 50}
+        {range: '0-59', count: scoreCount[0]},
+        {range: '60-69', count: scoreCount[1]},
+        {range: '70-79', count: scoreCount[2]},
+        {range: '80-89', count: scoreCount[3]},
+        {range: '90-100', count: scoreCount[4]}
     ];
-
+    console.log(data);
     // 初始化图表
     const chart = echarts.init(document.getElementById('chart'));
 
