@@ -52,7 +52,6 @@ public class TopologyController {
         return mv;
     }
 
-    // 该方法返回值为添加的节点id，可以在前端将id绑定到key
     @PostMapping("/addNode")
     public ResponseEntity<Map<String, Object>> addNode(@RequestParam String name,
                                            @RequestParam String ip,
@@ -87,6 +86,7 @@ public class TopologyController {
         node.setType(type);
         nodeService.addNode(node);
 
+        // 返回更新后的json配置
         return ResponseEntity.ok(config);
     }
 

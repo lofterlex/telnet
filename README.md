@@ -72,3 +72,31 @@
 
 ### 数据库表结构设计（贾翰哲）
 
+### 命令行步骤
+
+**Router**>enable
+
+**Router**#configure terminal
+
+Enter configuration commands, one per line.
+
+End with CNTL/Z.
+
+**Router(config)**#hostname R1 //以上改变路由器的名称为“R1”，设置立即生效。
+
+**R1(config)**#interface g0/0 //以上进入到接口模式，这里是千兆以太网口（第 0 个插槽的第 0 个接口，编号从 0 开始）。
+
+**R1(config-if)**#ip address 10.1.1.1 255.255.255.0 //以上给以太接口配置一个 IP 地址 10.1.1.1，掩码为 255.255.255.0 。
+
+**R1(config-if)**#no shutdown //以上开启以太网口，因为默认时路由器的各个接口是关闭的。
+
+**R1(config-if)**#exit //退回到上一级模式
+
+**R1(config)**#interface s0/0/0 //以上进入到接口模式，这里是串行接口
+
+**R1(config-if)**#ip address 10.12.12.1 255.255.255.0 //以上给串行接口配置一个 IP 地址
+
+**R1(config-if)**#no shutdown //以上开启接口
+
+**R1(config-if)**#end
+
