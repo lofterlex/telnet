@@ -17,6 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.PreDestroy;
 import java.util.List;
+import java.util.Map;
 
 /**
  * ClassName: TopologyController
@@ -50,17 +51,40 @@ public class TopologyController {
 
     // 该方法返回值为添加的节点id，可以在前端将id绑定到key
     @PostMapping("/addNode")
-    public ResponseEntity<Integer> addNode(@RequestParam String name,
+    public ResponseEntity<Map<String, Object>> addNode(@RequestParam String name,
                                            @RequestParam String ip,
                                            @RequestParam int port,
-                                           @RequestParam int type) {
+                                           @RequestParam int key,
+                                           @RequestBody Map<String, Object> config
+    ) {
+        int type = 0;
+        List<Map<String, Object>> nodeDataArray = (List<Map<String, Object>>) config.get("nodeDataArray");
+        for (Map<String, Object> map : nodeDataArray) {
+            if ((int) map.get("key") == key) {
+                // 确认当前节点的类别
+                String category = (String) map.get("category");
+                if (category.equals("router")) {
+                    type = 0;
+                } else if (category.equals("switch")) {
+                    type = 1;
+                } else {
+                    type = 2;
+                }
+                // 修改json中的text字段
+                map.put("text", name);
+            }
+        }
+
+        // 添加节点到数据库
         Node node = new Node();
+        node.setId(Math.abs(key));
         node.setName(name);
         node.setIp(ip);
         node.setPort(port);
         node.setType(type);
-        Result<Integer> result = nodeService.addNode(node);
-        return ResponseEntity.ok(result.getData());
+        nodeService.addNode(node);
+
+        return ResponseEntity.ok(config);
     }
 
     @PostMapping("/addTopology")
