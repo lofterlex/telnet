@@ -22,6 +22,5 @@ public class Node {
     private String ip;
     private Integer port;
     private Integer type;
-    private String command;
     private Integer topology_id;
 }

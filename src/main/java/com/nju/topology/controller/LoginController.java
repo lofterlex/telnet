@@ -28,7 +28,7 @@ public class LoginController {
     private UserService userService;
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestParam String studentId, @RequestParam String password) {
+    public ResponseEntity<String> login(@RequestParam String studentId, @RequestParam String password, HttpServletRequest request) {
         if(studentId.equals("admin")) {
             if(password.equals("123")) {
                 return ResponseEntity.ok("admin");
@@ -48,6 +48,7 @@ public class LoginController {
         Result<User> result = userService.login(Integer.parseInt(studentId), password);
         if (result.getCode() == 1) {
             User user = result.getData();
+            request.getSession().setAttribute("userId", result.getData().getId());
             if(user.getType() == 0)
                 return ResponseEntity.ok("admin");
             else return ResponseEntity.ok("user");

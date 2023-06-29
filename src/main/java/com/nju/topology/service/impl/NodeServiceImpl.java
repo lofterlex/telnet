@@ -12,11 +12,11 @@ public class NodeServiceImpl implements NodeService {
 
     @Autowired
     private NodeMapper nodeMapper;
+
     @Override
-    public Result<String> addNode(Node node) {
-        int res = nodeMapper.insertNode(node);
-        if (res > 0) return Result.success("新增节点成功");
-        else return Result.error("新增节点失败");
+    public Result<Integer> addNode(Node node) {
+        nodeMapper.insert(node);
+        return Result.success(node.getId());
     }
 
     @Override
