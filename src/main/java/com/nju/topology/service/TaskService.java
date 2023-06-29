@@ -22,6 +22,8 @@ public interface TaskService {
 
     Result<String> addTask(String name, String desc);
 
+    Result<String> deleteTask(int id);
+
     Result<List<Task>> getTaskList();
 
     Result<List<ScoreListDTO>> getScoreList(int id);

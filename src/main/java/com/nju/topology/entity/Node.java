@@ -1,5 +1,6 @@
 package com.nju.topology.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.sun.org.apache.xpath.internal.operations.Or;

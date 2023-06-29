@@ -52,8 +52,17 @@ public class TaskController {
     // 任务管理页面：新增任务
     @PostMapping("/addTask")
     public ResponseEntity<String> addTask(@RequestParam String name,
-                                          @RequestParam String desc) {
-        Result<String> result = taskService.addTask(name, desc);
+                                          @RequestParam String description) {
+        Result<String> result = taskService.addTask(name, description);
+        if (result.getCode() == 1)
+            return ResponseEntity.ok(result.getData());
+        else return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(result.getData());
+    }
+
+    // 任务管理页面：删除任务
+    @PostMapping("/deleteTask")
+    public ResponseEntity<String> addTask(@RequestParam int id){
+        Result<String> result = taskService.deleteTask(id);
         if (result.getCode() == 1)
             return ResponseEntity.ok(result.getData());
         else return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(result.getData());

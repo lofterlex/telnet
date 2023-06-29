@@ -60,6 +60,16 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
+    public Result<String> deleteTask(int id) {
+        int res = taskMapper.deleteById(id);
+        if (res > 0) {
+            return Result.success("删除任务成功");
+        } else {
+            return Result.error("删除任务失败");
+        }
+    }
+
+    @Override
     public Result<List<Task>> getTaskList() {
         List<Task> tasks = taskMapper.selectList(null);
         return Result.success(tasks);
