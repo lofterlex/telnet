@@ -30,6 +30,16 @@ public class TopologyController {
             return nodeService.addNode(node);
      }
 
+    @PostMapping("/updateNode")
+    public Result<String> updateNode(@RequestBody Node node) {
+        return nodeService.updateNode(node);
+    }
+
+    @PostMapping("/deleteNode")
+    public Result<String> deleteNode(@RequestParam int id) {
+        return nodeService.deleteNode(id);
+    }
+
      @PostMapping("/updateScore")
     public ResponseEntity<String> updateScore(@RequestParam int id, @RequestParam int score) {
         Result<String> result = topologyService.updateScore(id, score);
