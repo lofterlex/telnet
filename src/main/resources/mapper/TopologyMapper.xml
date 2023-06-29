@@ -3,7 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.nju.topology.mapper.NodeMapper">
+<mapper namespace="com.nju.topology.mapper.TopologyMapper">
 
     <sql id="insertFields">
         id, name, ip, port, type, command, topology_id
@@ -24,6 +24,14 @@
             command    = #{command},
             topology_id= #{topology_id}
         where id = #{id};
+    </update>
+    <update id="updateTopologyId">
+        update node
+        set topology_id = #{id}
+        where
+        <foreach collection="ids" item="id1" separator="or">
+            (id = #{id1} and topology_id = -1)
+        </foreach>
     </update>
 
     <delete id="deleteUserById">

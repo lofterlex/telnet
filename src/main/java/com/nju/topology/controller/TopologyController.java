@@ -8,6 +8,7 @@ import com.nju.topology.entity.Topology;
 import com.nju.topology.service.NodeService;
 import com.nju.topology.service.TaskService;
 import com.nju.topology.service.TopologyService;
+import org.apache.tomcat.util.json.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +17,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.PreDestroy;
+import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -89,19 +92,26 @@ public class TopologyController {
 
     @PostMapping("/addTopology")
     public ResponseEntity<String> addTopology(@RequestParam int type,
-                                              @RequestParam String configuration,
                                               @RequestParam int userId,
-                                              @RequestParam int taskId
+                                              @RequestParam int taskId,
+                                              @RequestBody Map<String, Object> config
     ) {
         Topology topology = new Topology();
         topology.setType(type);
-        topology.setConfiguration(configuration);
+        topology.setConfiguration(config.toString());
         topology.setUserId(userId);
         topology.setTaskId(taskId);
-        Result<String> result = topologyService.addTopology(topology);
-        if (result.getCode() == 1)
-            return ResponseEntity.ok(result.getData());
-        else return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(result.getData());
+        int topologyId = topologyService.addTopology(topology).getData();
+
+        //从json中获取ids（List）
+        List<Integer> ids = new ArrayList<>();
+        List<Map<String, Object>> nodeDataArray = (List<Map<String, Object>>) config.get("nodeDataArray");
+        for (Map<String, Object> map : nodeDataArray) {
+            int id = (int) map.get("key");
+            ids.add(Math.abs(id));
+        }
+        topologyService.updateTopologyId(ids, topologyId);
+        return ResponseEntity.ok("添加拓扑成功");
     }
 
     @PostMapping("/updateNode")

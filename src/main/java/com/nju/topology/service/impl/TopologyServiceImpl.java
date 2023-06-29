@@ -38,12 +38,16 @@ public class TopologyServiceImpl implements TopologyService {
     }
 
     @Override
-    public Result<String> addTopology(Topology topology) {
-        int res = topologyMapper.insert(topology);
-//        nodeMapper.update
+    public Result<Integer> addTopology(Topology topology) {
+        topologyMapper.insert(topology);
+        return Result.success(topology.getId());
+    }
 
-        if (res > 0) return Result.success("添加拓扑成功");
-        else return Result.error("添加拓扑失败");
+    @Override
+    public Result<String> updateTopologyId(List<Integer> ids, int id) {
+        int res = topologyMapper.updateTopologyId(ids, id);
+        if (res > 0) return Result.success("修改拓扑id成功");
+        else return Result.error("修改拓扑id失败");
     }
 
 }
