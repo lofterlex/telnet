@@ -214,7 +214,7 @@
                     if(response.toString() === 'admin'){
                         window.location.href = 'toTask';
                     } else {
-                        window.location.href = 'toUser';
+                        window.location.href = 'toUserTask';
                     }
                 },
                 error: function(error) {

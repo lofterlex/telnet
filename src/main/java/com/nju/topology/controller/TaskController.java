@@ -78,6 +78,15 @@ public class TaskController {
         return mv;
     }
 
+    @GetMapping("/toUserTask")
+    public ModelAndView getUserTaskList() {
+        Result<List<Task>> result = taskService.getTaskList();
+        ModelAndView mv = new ModelAndView();
+        mv.setViewName("task");
+        mv.addObject("taskList", result.getData());
+        return mv;
+    }
+
     // 成绩管理页面：获取成绩列表
     @GetMapping("/toScore")
     public ModelAndView getScoreList(@RequestParam int id) {
