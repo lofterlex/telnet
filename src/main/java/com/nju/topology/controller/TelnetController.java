@@ -5,10 +5,7 @@ import com.nju.topology.entity.Node;
 import com.nju.topology.service.NodeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * ClassName: TelnetController
@@ -27,4 +24,13 @@ public class TelnetController {
      public Result<String> InsertNode(@RequestBody Node node){
             return nodeService.addNode(node);
      }
+
+     @PostMapping("/update")
+    public Result<String> updateNode(@RequestBody Node node){return nodeService.updateNode(node);}
+
+    @PostMapping("/delete")
+    public Result<String> deleteNode(@RequestParam int id){
+        return nodeService.deleteNode(id);
+    }
+
 }
