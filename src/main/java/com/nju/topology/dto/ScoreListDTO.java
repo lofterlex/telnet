@@ -11,7 +11,7 @@ import lombok.Data;
  */
 @Data
 public class ScoreListDTO {
-    private int topologyId;
+    private int id;
     private int studentId;
     private String name;
     private int score;
