@@ -114,7 +114,7 @@
                             <td>${score.score}</td>
                             <td>
                                 <button type="button" class="btn btn-primary" data-toggle="modal"
-                                        data-target="#editModal" data-id="${score.studentId}" id="editButton">修改
+                                        data-target="#editModal" data-id="${score.id}" id="editButton">修改
                                 </button>
                                 <button type="button" class="btn btn-warning" data-toggle="modal"
                                     data-id="${score.id}">查看</button>
@@ -208,11 +208,11 @@
             console.log(id);
             console.log(score);
             $.ajax({
-                url: '/updateScore',
+                url: '/updateScore?id='+id+'&score='+score,
                 method: 'POST',
                 data: {
-                    id: id,
-                    score: score
+                    // id: id,
+                    // score: score
                 },
                 success: function(response) {
                     // 处理响应
