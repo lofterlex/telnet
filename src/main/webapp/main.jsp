@@ -5,7 +5,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Flowchart</title>
+    <title>拓扑详情</title>
     <meta charset="UTF-8">
     <script src="js/go.js"></script>
     <link rel="stylesheet" href="css/bootstrap.min.css">
@@ -84,14 +84,25 @@
                 outputArea.append('<p><span class="terminal-output-command">$ ' + command + '</span></p>');
 
                 switch (command) {
-                    case 'help':
-                        outputArea.append('<p>Available commands:</p><ul><li>help - show this help message</li><li>date - show current date and time</li></ul>');
+                    case 'enable':
+                        document.getElementById("command").innerHTML = 'Router#';
                         break;
-                    case 'date':
-                        outputArea.append('<p>' + new Date().toString() + '</p>');
+                    case 'hostname R1':
+                        document.getElementById("command").innerHTML = 'R1(config)#';
+                        outputArea.append('<p></p>');
+                        break;
+                    case 'configure terminal':
+                        outputArea.append('<p>Enter configuration commands, one per line.</p><p>End with CNTL/Z.</p>');
+                        document.getElementById("command").innerHTML = 'Router(config)#';
+                        break;
+                    case 'interface g0/0':
+                        document.getElementById("command").innerHTML = 'R1(config-if)#';
+                        break;
+                    case 'exit':
+                        document.getElementById("command").innerHTML = 'R1(config)#';
                         break;
                     default:
-                        outputArea.append('<p class="terminal-output-error">Command not found: ' + command + '</p>');
+                        outputArea.append('<p></p>');
                         break;
                 }
 
@@ -100,6 +111,7 @@
         });
 
         function init() {
+            document.getElementById("command").innerHTML = "Router>";
             if (window.goSamples) goSamples();
             var $ = go.GraphObject.make;
 
@@ -590,7 +602,7 @@
                             <form class="terminal-input-form">
                                 <div class="input-group">
                                     <div class="input-group-prepend">
-                                        <span class="input-group-text">></span>
+                                        <span class="input-group-text" id="command"></span>
                                         <input type="text" class="form-control terminal-input"
                                                placeholder="Type command here...">
                                     </div>
