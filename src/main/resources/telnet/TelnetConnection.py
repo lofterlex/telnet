@@ -11,7 +11,6 @@ class TelnetClient:
         self.if_first_interact = True
 
     # 发送命令，原子指令
-    # 输入的命令必须是经过encode过的指令
     def writeCMD(self, command):
         self.tn.write(command)
         time.sleep(0.1)
