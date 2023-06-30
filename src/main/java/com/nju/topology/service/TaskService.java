@@ -4,8 +4,10 @@ import com.nju.topology.common.Result;
 import com.nju.topology.dto.HistoryRecordDTO;
 import com.nju.topology.dto.ScoreListDTO;
 import com.nju.topology.entity.Task;
+import com.nju.topology.entity.Topology;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * InterfaceName: TaskService
@@ -18,7 +20,9 @@ public interface TaskService {
 
     Result<List<HistoryRecordDTO>> getHistoryList(int userId);
 
-    Result<String> getConfigurationMessage(int id);
+    Result<Topology> getTopologyById(int id);
+
+    List<Map<String, Object>> getNodes(int id);
 
     Result<String> addTask(String name, String desc);
 

@@ -4,9 +4,11 @@ import com.nju.topology.common.Result;
 import com.nju.topology.dto.HistoryRecordDTO;
 import com.nju.topology.dto.ScoreListDTO;
 import com.nju.topology.entity.Task;
+import com.nju.topology.entity.TopoData;
 import com.nju.topology.entity.Topology;
 import com.nju.topology.entity.User;
 import com.nju.topology.service.TaskService;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +17,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -42,12 +45,21 @@ public class TaskController {
     }
 
     // 主页面（历史记录）：查看配置
-    @GetMapping("/config")
-    public ResponseEntity<String> getConfigMsg(@RequestParam int id) {
-        Result<String> result = taskService.getConfigurationMessage(id);
-        if (result.getCode() == 1)
-            return ResponseEntity.ok(result.getData());
-        else return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(result.getData());
+    @GetMapping("/getConfig")
+    public ResponseEntity<TopoData> getConfig(@RequestParam int id) throws IOException {
+        Result<Topology> result = taskService.getTopologyById(id);
+        Topology topology = result.getData();
+        TopoData data = new TopoData();
+        data.setUserId(topology.getUserId());
+        data.setTaskId(topology.getTaskId());
+        List<Map<String, Object>> nodes = taskService.getNodes(id);
+        data.setNodes(nodes);
+        String config = topology.getConfiguration();
+        ObjectMapper objectMapper = new ObjectMapper();
+        Map<String, Object> map = objectMapper.readValue(config, Map.class);
+        data.setConfig(map);
+
+        return ResponseEntity.ok(data);
     }
 
     // 任务管理页面：新增任务
@@ -62,7 +74,7 @@ public class TaskController {
 
     // 任务管理页面：删除任务
     @PostMapping("/deleteTask")
-    public ResponseEntity<String> addTask(@RequestParam int id){
+    public ResponseEntity<String> addTask(@RequestParam int id) {
         Result<String> result = taskService.deleteTask(id);
         if (result.getCode() == 1)
             return ResponseEntity.ok(result.getData());
@@ -97,22 +109,22 @@ public class TaskController {
         mv.setViewName("userManage");
         mv.addObject("scoreList", result.getData());
         int[] score_count = new int[5];
-        for(ScoreListDTO dto : result.getData()){
+        for (ScoreListDTO dto : result.getData()) {
             int score = dto.getScore();
-            if(score < 60){
+            if (score < 60) {
                 score_count[0]++;
-            }else if (score < 70){
+            } else if (score < 70) {
                 score_count[1]++;
-            }else if(score < 80){
+            } else if (score < 80) {
                 score_count[2]++;
-            }else if(score < 90){
+            } else if (score < 90) {
                 score_count[3]++;
-            }else {
+            } else {
                 score_count[4]++;
             }
         }
         ArrayList<Integer> scoreCount = new ArrayList<>();
-        for(int i : score_count){
+        for (int i : score_count) {
             scoreCount.add(i);
         }
         mv.addObject("scoreCount", scoreCount);

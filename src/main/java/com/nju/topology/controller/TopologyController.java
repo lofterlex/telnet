@@ -125,6 +125,8 @@ public class TopologyController {
         return ResponseEntity.ok("添加拓扑成功");
     }
 
+
+
     @PostMapping("/updateNode")
     public Result<String> updateNode(@RequestBody Node node) {
         return nodeService.updateNode(node);

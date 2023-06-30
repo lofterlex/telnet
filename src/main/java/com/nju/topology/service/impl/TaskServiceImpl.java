@@ -4,14 +4,21 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.nju.topology.common.Result;
 import com.nju.topology.dto.HistoryRecordDTO;
 import com.nju.topology.dto.ScoreListDTO;
+import com.nju.topology.entity.Node;
 import com.nju.topology.entity.Task;
+import com.nju.topology.entity.Topology;
+import com.nju.topology.mapper.NodeMapper;
 import com.nju.topology.mapper.TaskMapper;
+import com.nju.topology.mapper.TopologyMapper;
 import com.nju.topology.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.sql.Wrapper;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * ClassName: TaskServiceImpl
@@ -24,7 +31,13 @@ import java.util.List;
 public class TaskServiceImpl implements TaskService {
 
     @Autowired
+    private NodeMapper nodeMapper;
+
+    @Autowired
     private TaskMapper taskMapper;
+
+    @Autowired
+    private TopologyMapper topologyMapper;
 
     @Override
     public Result<List<HistoryRecordDTO>> getHistoryList(int userId) {
@@ -37,13 +50,30 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public Result<String> getConfigurationMessage(int id) {
-        String message = taskMapper.getConfigurationMessage(id);
-        if ("".equals(message)) {
-            return Result.error("配置信息为空，请重新配置");
+    public Result<Topology> getTopologyById(int id) {
+        Topology topology = topologyMapper.selectById(id);
+        if (topology == null) {
+            return Result.error("查找拓扑失败");
         } else {
-            return Result.success(message);
+            return Result.success(topology);
         }
+    }
+
+    @Override
+    public List<Map<String, Object>> getNodes(int id) {
+        QueryWrapper<Node> queryWrapper = new QueryWrapper();
+        queryWrapper.eq("topology_id", id);
+        List<Node> nodes = nodeMapper.selectList(queryWrapper);
+        List<Map<String, Object>> nodeList = new ArrayList<>();
+        for (Node node : nodes) {
+            Map<String, Object> map = new HashMap<>();
+            map.put("port", node.getPort());
+            map.put("ip", node.getIp());
+            map.put("name", node.getName());
+            map.put("key", node.getId());
+            nodeList.add(map);
+        }
+        return nodeList;
     }
 
     @Override
