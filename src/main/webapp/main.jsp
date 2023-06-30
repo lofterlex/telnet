@@ -424,6 +424,7 @@
 
         $(document).ready(function () {
             $('#addTopology').submit(function (event) {
+                event.preventDefault();
                 var type = parseInt($('#select1').val());
                 console.log(nodes);
                 $.ajax({
@@ -446,12 +447,31 @@
                         window.location.href = 'toUserTask';
                     },
                     error: function (error) {
-                        console.log(this.data);
                         // 处理错误
                         console.log(error);
                     }
                 });
             })
+        });
+
+        $(document).on("click", "#checkConfigure", function() {
+            var id = $(this).data("id");
+            $.ajax({
+                url: "/getConfig?id=" + id, // 请求的URL，根据实际情况修改
+                type: "GET", // 请求方法
+                success: function(data) { // 成功回调函数
+                    // 解析返回的JSON数据
+                    console.log(data.config);
+                    nodes = JSON.parse(data.nodes);
+                    updatePage();
+                    curModel = data.config;
+                    loadFromSave();
+                    console.log(myDiagram.model.nodeDataArray);
+                },
+                error: function() { // 失败回调函数
+                    console.log(this.error);
+                }
+            });
         });
     </script>
 </head>
@@ -576,7 +596,7 @@
                                                 </td>
                                                 <td>${history.score}</td>
                                                 <td>
-                                                    <button type="button" class="btn btn-primary">查看配置</button>
+                                                    <button type="button" class="btn btn-primary" id="checkConfigure" data-id="${history.id}">查看配置</button>
                                                     <button type="button" class="btn btn-default">跳转</button>
                                                 </td>
                                             </tr>

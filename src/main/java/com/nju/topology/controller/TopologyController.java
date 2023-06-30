@@ -1,5 +1,6 @@
 package com.nju.topology.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.nju.topology.common.Result;
 import com.nju.topology.dto.HistoryRecordDTO;
 import com.nju.topology.entity.Node;
@@ -105,7 +106,7 @@ public class TopologyController {
         Map<String, Object> config = topoData.getConfig();
         Topology topology = new Topology();
         topology.setType(type);
-        topology.setConfiguration(config.toString());
+        topology.setConfiguration(JSON.toJSONString(config));
         topology.setUserId(userId);
         topology.setTaskId(taskId);
         int topologyId = topologyService.addTopology(topology).getData();

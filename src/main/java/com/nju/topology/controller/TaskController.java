@@ -1,5 +1,6 @@
 package com.nju.topology.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.nju.topology.common.Result;
 import com.nju.topology.dto.HistoryRecordDTO;
 import com.nju.topology.dto.ScoreListDTO;
@@ -19,6 +20,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -46,21 +48,18 @@ public class TaskController {
 
     // 主页面（历史记录）：查看配置
     @GetMapping("/getConfig")
-    public ResponseEntity<TopoData> getConfig(@RequestParam int id) throws IOException {
+    @ResponseBody
+    public Map<String, Object> getConfig(@RequestParam int id) throws Exception {
         Result<Topology> result = taskService.getTopologyById(id);
-        Topology topology = result.getData();
-        TopoData data = new TopoData();
-        data.setUserId(topology.getUserId());
-        data.setTaskId(topology.getTaskId());
-        List<Map<String, Object>> nodes = taskService.getNodes(id);
-        data.setNodes(nodes);
-        String config = topology.getConfiguration();
-        ObjectMapper objectMapper = new ObjectMapper();
-        Map<String, Object> map = objectMapper.readValue(config, Map.class);
-        data.setConfig(map);
-
-        return ResponseEntity.ok(data);
+        List<Map<String, Object>> nodeList = taskService.getNodes(id);
+        Map<String, Object> map = new HashMap<>();
+        String config = result.getData().getConfiguration();
+        String nodes = JSON.toJSONString(nodeList);
+        map.put("nodes", nodes);
+        map.put("config", config);
+        return map;
     }
+
 
     // 任务管理页面：新增任务
     @PostMapping("/addTask")
