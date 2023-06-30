@@ -114,9 +114,10 @@
                             <td>${score.score}</td>
                             <td>
                                 <button type="button" class="btn btn-primary" data-toggle="modal"
-                                        data-target="#editModal" data-id="${score}">修改
+                                        data-target="#editModal" data-id="${score.studentId}" id="editButton">修改
                                 </button>
-                                <button type="button" class="btn btn-warning" data-toggle="modal">查看</button>
+                                <button type="button" class="btn btn-warning" data-toggle="modal"
+                                    data-id="${score.id}">查看</button>
                             </td>
                         </tr>
                     </c:forEach>
@@ -140,8 +141,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form id="updateScoreForm" action="/updateScore" method="post">
-                    <input type="hidden" id="id">
+                <form id="updateScoreForm">
                     <div class="form-group">
                         <label for="score">分数</label>
                         <input type="text" class="form-control" id="score" placeholder="请输入分数">
@@ -189,11 +189,24 @@
     // 使用配置项显示图表
     chart.setOption(option);
 
+    $(document).on("click", ".btn-warning", function() {
+        console.log($(this).data("id"));
+        window.location.href = "/toExamine?topologyId=" + $(this).data("id");
+    });
+
+    $(document).on("click", "#editButton", function() {
+        var id = $(this).data("id");
+        $("#editModal").data("id", id);
+    });
+
+
     $(document).ready(function() {
         $('#updateScoreForm').submit(function(event) {
             event.preventDefault(); // 阻止表单默认提交行为
-            var id = parseInt($('#id').val());
+            var id = parseInt($('#editModal').data("id"));
             var score = parseInt($('#score').val());
+            console.log(id);
+            console.log(score);
             $.ajax({
                 url: '/updateScore',
                 method: 'POST',

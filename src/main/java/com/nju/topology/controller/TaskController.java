@@ -60,6 +60,19 @@ public class TaskController {
         return map;
     }
 
+    @GetMapping("/toExamine")
+    public ModelAndView examine(@RequestParam int topologyId) throws Exception {
+        Result<Topology> result = taskService.getTopologyById(topologyId);
+        List<Map<String, Object>> nodeList = taskService.getNodes(topologyId);
+        String config = result.getData().getConfiguration();
+        String nodes = JSON.toJSONString(nodeList);
+        ModelAndView mv = new ModelAndView();
+        mv.setViewName("examine");
+        mv.addObject("nodes", nodes);
+        mv.addObject("config", config);
+        return mv;
+    }
+
 
     // 任务管理页面：新增任务
     @PostMapping("/addTask")
