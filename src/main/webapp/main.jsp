@@ -321,7 +321,7 @@
                 var port = $('#hPort').val();
                 var name = $('#hName').val();
                 console.log(myDiagram.model.nodeDataArray.length);
-                nodes.push({'port':port, 'ip': ip, 'name': name, 'key': id});
+                nodes.push({'port':port, 'ip': ip, 'name': name, 'key': id, type: 2});
                 updatePage();
                 console.log(nodes.length);
                 for(var i = 0;i < myDiagram.model.nodeDataArray.length;i++){
@@ -348,7 +348,7 @@
                 var port = $('#sPort').val();
                 var name = $('#sName').val();
                 console.log(myDiagram.model.nodeDataArray.length);
-                nodes.push({'port':port, 'ip': ip, 'name': name, 'key': id});
+                nodes.push({'port':port, 'ip': ip, 'name': name, 'key': id, 'type': 1});
                 updatePage();
                 console.log(nodes.length);
                 for(var i = 0;i < myDiagram.model.nodeDataArray.length;i++){
@@ -375,7 +375,7 @@
                 var port = $('#rPort').val();
                 var name = $('#rName').val();
                 console.log(myDiagram.model.nodeDataArray.length);
-                nodes.push({'port':port, 'ip': ip, 'name': name, 'key': id});
+                nodes.push({'port':port, 'ip': ip, 'name': name, 'key': id, 'type': 0});
                 updatePage();
                 console.log(nodes.length);
                 for(var i = 0;i < myDiagram.model.nodeDataArray.length;i++){
@@ -424,7 +424,7 @@
 
         $(document).ready(function () {
             $('#addTopology').submit(function (event) {
-                var type = $('#select1').val();
+                var type = parseInt($('#select1').val());
                 console.log(nodes);
                 $.ajax({
                     url: "/addTopology",
@@ -435,11 +435,10 @@
                         taskId: taskId,
                         userId: userId,
                         nodes: nodes,
-                        config: curModel
+                        config: JSON.parse(curModel)
                     }),
                     success: function (response) {
                         // 处理响应
-                        console.log(response);
                         $('#alert').fadeIn();
                         setTimeout(function() {
                             $('#alert').fadeOut();
@@ -447,6 +446,7 @@
                         window.location.href = 'toUserTask';
                     },
                     error: function (error) {
+                        console.log(this.data);
                         // 处理错误
                         console.log(error);
                     }

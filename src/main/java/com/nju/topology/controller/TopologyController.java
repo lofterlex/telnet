@@ -113,10 +113,10 @@ public class TopologyController {
         //从json中获取ids（List）
         List<Integer> ids = new ArrayList<>();
         for (Map<String, Object> node : nodes) {
-            int id = Math.abs((int) node.get("key"));
+            int id = Math.abs(Integer.parseInt((String) node.get("key")));
             String name = (String) node.get("name");
             String ip = (String) node.get("ip");
-            int port = (int) node.get("port");
+            int port = Integer.parseInt((String) node.get("port"));
             int Type = (int) node.get("type");
             ids.add(id);
             nodeService.addNode(new Node(id, name, ip, port, Type, topologyId));
