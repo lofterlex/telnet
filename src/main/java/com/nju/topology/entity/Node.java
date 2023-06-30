@@ -23,4 +23,13 @@ public class Node {
     private Integer port;
     private Integer type;
     private Integer topology_id;
+
+    public Node(Integer id, String name, String ip, Integer port, Integer type, Integer topology_id) {
+        this.id = id;
+        this.name = name;
+        this.ip = ip;
+        this.port = port;
+        this.type = type;
+        this.topology_id = topology_id;
+    }
 }

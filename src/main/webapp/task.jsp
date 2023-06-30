@@ -64,7 +64,7 @@
     $(document).on("click", "#check", function() {
         var taskId = $(this).data("id");
         var userId = ${sessionScope.userId};
-        var params = '?userId=' + userId + '&taskId=' + taskId;
+        var params = '?taskId=' + taskId + '&userId=' + userId;
         window.location.href = 'toMain'+ params;
     });
 

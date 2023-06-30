@@ -65,6 +65,12 @@
         }
     </style>
     <script id="code">
+        var curModel = { "class": "GraphLinksModel",
+            "nodeDataArray": [],
+            "linkDataArray": []};
+        var nodes = [];
+        let taskId = ${taskDesc.id};
+        let userId = ${userId};
         $(function () {
             // 获取输入表单和输出区域
             var inputForm = $('.terminal-input-form');
@@ -201,7 +207,7 @@
                     $(go.Shape,
                         {
                             stroke: "gray",
-                            strokeWidth: 1.5
+                            strokeWidth: 1.0
                         })
                 );
 
@@ -222,19 +228,9 @@
 
             // Model data
             myDiagram.model = new go.GraphLinksModel(
-                [
-                    {key: "router1", category: "router", text: "Router 1", loc: "0 0"},
-                    {key: "switch1", category: "switch", text: "Switch 1", loc: "150 0"},
-                    {key: "host1", category: "host", text: "Host 1", loc: "300 0"},
-                    {key: "host2", category: "host", text: "Host 2", loc: "300 100"}
-                ],
-                [
-                    {from: "router1", to: "switch1"},
-                    {from: "switch1", to: "host1"},
-                    {from: "switch1", to: "host2"}
-                ]
+                curModel.nodeDataArray,
+                curModel.linkDataArray
             );
-
             myDiagram.addModelChangedListener(function (event) {
                 if (event.isTransactionFinished) {
                     var model = event.model;
@@ -248,7 +244,7 @@
                                 // 新链接与已有链接起点和终点相同，说明存在重复边
                                 alert("存在重复边");
                                 // 可以选择取消添加新链接或者删除已有的重复链接
-                                model.removeLinkData(newLink);
+                                model.removeLinkData(existingLink);
                                 break;
                             }
                         }
@@ -273,9 +269,14 @@
                 var data = node.data;
                 // Get the configuration window element based on the node's category
                 var configWindow = document.getElementById(data.category + "ConfigWindow");
+
                 if (configWindow) {
                     // Show the configuration window (using Bootstrap modal)
                     $(configWindow).modal('show');
+                    var inputField = document.getElementById(data.category.charAt(0) + "Id");
+                    if (inputField) {
+                        inputField.value = data.key;
+                    }
                 }
             }
         }
@@ -287,11 +288,11 @@
         function save() {
             var diagramJson = myDiagram.model.toJson();
             console.log(diagramJson);
+            curModel = diagramJson;
         }
 
         function loadFromSave() {
-            var diagramJson = document.getElementById("mySavedModel").value;
-            myDiagram.model = go.Model.fromJson(diagramJson);
+            myDiagram.model = go.Model.fromJson(curModel);
         }
 
         // 监听整个文档的右键单击事件
@@ -300,6 +301,146 @@
             e.preventDefault();
         });
 
+        $(document).ready(function () {
+            $('#addNodeH').submit(function (event) {
+                event.preventDefault();
+                var id = $('#hId').val();
+                var ip = $('#hIp').val();
+                var port = $('#hPort').val();
+                var name = $('#hName').val();
+                console.log(myDiagram.model.nodeDataArray.length);
+                nodes.push({'port':port, 'ip': ip, 'name': name, 'key': id});
+                updatePage();
+                console.log(nodes.length);
+                for(var i = 0;i < myDiagram.model.nodeDataArray.length;i++){
+                    if(myDiagram.model.nodeDataArray[i].key == id){
+                        let temp = myDiagram.model.nodeDataArray;
+                        temp[i].text = name;
+                        console.log(temp);
+                        myDiagram.model.nodeDataArray = temp;
+                        console.log(myDiagram.model.nodeDataArray);
+                        save();
+                        loadFromSave();
+                        break;
+                    }
+                }
+                $("#hostConfigWindow").modal("hide");
+            })
+        });
+
+        $(document).ready(function () {
+            $('#addNodeS').submit(function (event) {
+                event.preventDefault();
+                var id = $('#sId').val();
+                var ip = $('#sIp').val();
+                var port = $('#sPort').val();
+                var name = $('#sName').val();
+                console.log(myDiagram.model.nodeDataArray.length);
+                nodes.push({'port':port, 'ip': ip, 'name': name, 'key': id});
+                updatePage();
+                console.log(nodes.length);
+                for(var i = 0;i < myDiagram.model.nodeDataArray.length;i++){
+                    if(myDiagram.model.nodeDataArray[i].key == id){
+                        let temp = myDiagram.model.nodeDataArray;
+                        temp[i].text = name;
+                        console.log(temp);
+                        myDiagram.model.nodeDataArray = temp;
+                        console.log(myDiagram.model.nodeDataArray);
+                        save();
+                        loadFromSave();
+                        break;
+                    }
+                }
+                $("#switchConfigWindow").modal("hide");
+            })
+        });
+
+        $(document).ready(function () {
+            $('#addNodeR').submit(function (event) {
+                event.preventDefault();
+                var id = $('#rId').val();
+                var ip = $('#rIp').val();
+                var port = $('#rPort').val();
+                var name = $('#rName').val();
+                console.log(myDiagram.model.nodeDataArray.length);
+                nodes.push({'port':port, 'ip': ip, 'name': name, 'key': id});
+                updatePage();
+                console.log(nodes.length);
+                for(var i = 0;i < myDiagram.model.nodeDataArray.length;i++){
+                    if(myDiagram.model.nodeDataArray[i].key == id){
+                        let temp = myDiagram.model.nodeDataArray;
+                        temp[i].text = name;
+                        console.log(temp);
+                        myDiagram.model.nodeDataArray = temp;
+                        console.log(myDiagram.model.nodeDataArray);
+                        save();
+                        loadFromSave();
+                        break;
+                    }
+                }
+                $("#routerConfigWindow").modal("hide");
+            })
+        });
+
+        function updatePage() {
+            // 获取用于显示数据的容器
+            var nodeContainer = document.getElementById("nodeContainer");
+            // 清空容器中的内容
+            nodeContainer.innerHTML = "";
+            // 遍历新数据，将其添加到容器中
+            console.log(nodes);
+            for (var i = 0; i < nodes.length; i++) {
+                var node = nodes[i];
+                console.log(node);
+                var html = '<div class="form-group">' +
+                    '<label for="name" class="col-sm-1 control-label">Name</label>' +
+                    '<div class="col-sm-3">' +
+                    '<input type="text" class="form-control" id="name" disabled="disabled" value="' + node.name + '">' +
+                    '</div>' +
+                    '<label for="ip" class="col-sm-1 control-label">IP</label>' +
+                    '<div class="col-sm-3">' +
+                    '<input type="text" class="form-control" id="ip" disabled="disabled" value="' + node.ip + '">' +
+                    '</div>' +
+                    '<label for="port" class="col-sm-1 control-label">Port</label>' +
+                    '<div class="col-sm-3">' +
+                    '<input type="text" class="form-control" id="port" disabled="disabled" value="' + node.port + '">' +
+                    '</div>' +
+                    '</div>';
+                nodeContainer.innerHTML += html;
+            }
+        }
+
+        $(document).ready(function () {
+            $('#addTopology').submit(function (event) {
+                var type = $('#select1').val();
+                console.log(nodes);
+                $.ajax({
+                    url: "/addTopology",
+                    method: "POST",
+                    contentType: 'application/json',
+                    data: JSON.stringify({
+                        type: type,
+                        taskId: taskId,
+                        userId: userId,
+                        nodes: nodes,
+                        config: curModel
+                    }),
+                    success: function (response) {
+                        // 处理响应
+                        console.log(response);
+                        $('#alert').fadeIn();
+                        setTimeout(function() {
+                            $('#alert').fadeOut();
+                        }, 3000);
+                        window.location.href = 'toUserTask';
+                    },
+                    error: function (error) {
+                        // 处理错误
+                        console.log(error);
+                    }
+                });
+            })
+        });
     </script>
 </head>
 <body onload="load()">
@@ -313,7 +454,7 @@
         </div>
         <div class="col-xs-4" style="; height: 100vh; ">
             <div class="row" style="height: 60%;">
-                <div class="col-xs-12" style=" height: 100%; border: solid 1px black;">
+                <div class="col-xs-12" style=" height: 100%; border: solid 1px black; overflow:auto;">
                     <div class="panel-group" id="accordion">
                         <div class="panel panel-default">
                             <div class="panel-heading">
@@ -326,61 +467,41 @@
                             </div>
                             <div id="collapseOne" class="panel-collapse collapse in">
                                 <div class="panel-body">
-                                    <form class="form-horizontal">
+                                    <form class="form-horizontal" id="addTopology">
                                         <!-- 第一行 -->
                                         <div class="form-group">
                                             <label for="select1" class="col-sm-2 control-label">拓扑类型</label>
                                             <div class="col-sm-10">
                                                 <select class="form-control" id="select1">
-                                                    <option value="option1">Static</option>
-                                                    <option value="option2">RIP</option>
-                                                    <option value="option3">OSFP</option>
+                                                    <option value="0" selected>Static</option>
+                                                    <option value="1">RIP</option>
+                                                    <option value="2">OSFP</option>
                                                 </select>
                                             </div>
                                         </div>
 
                                         <!-- 第二行 -->
-                                        <div class="form-group">
-                                            <label for="name21" class="col-sm-1 control-label">Name</label>
-                                            <div class="col-sm-3">
-                                                <input type="text" class="form-control" id="name21">
-                                            </div>
-                                            <label for="ip21" class="col-sm-1 control-label">IP</label>
-                                            <div class="col-sm-3">
-                                                <input type="text" class="form-control" id="ip21">
-                                            </div>
-                                            <label for="port21" class="col-sm-1 control-label">Port</label>
-                                            <div class="col-sm-3">
-                                                <input type="text" class="form-control" id="port21">
-                                            </div>
-                                        </div>
-                                        <!-- 第三行 -->
-                                        <div class="form-group">
-                                            <label for="Command2" class="col-sm-2 control-label">Command</label>
-                                            <div class="col-sm-10">
-                                                <textarea class="form-control" id="Command2" rows="3"></textarea>
-                                            </div>
-                                        </div>
-                                        <!-- 第四行 -->
-                                        <div class="form-group">
-                                            <label for="name22" class="col-sm-1 control-label">Name</label>
-                                            <div class="col-sm-3">
-                                                <input type="text" class="form-control" id="name22">
-                                            </div>
-                                            <label for="ip22" class="col-sm-1 control-label">IP</label>
-                                            <div class="col-sm-3">
-                                                <input type="text" class="form-control" id="ip22">
-                                            </div>
-                                            <label for="port22" class="col-sm-1 control-label">Port</label>
-                                            <div class="col-sm-3">
-                                                <input type="text" class="form-control" id="port22">
-                                            </div>
+                                        <div id="nodeContainer">
+<%--                                                <div class="form-group">--%>
+<%--                                                    <label for="name" class="col-sm-1 control-label">Name</label>--%>
+<%--                                                    <div class="col-sm-3">--%>
+<%--                                                        <input type="text" class="form-control" id="name" disabled="disabled" value="${node.name}">--%>
+<%--                                                    </div>--%>
+<%--                                                    <label for="ip" class="col-sm-1 control-label">IP</label>--%>
+<%--                                                    <div class="col-sm-3">--%>
+<%--                                                        <input type="text" class="form-control" id="ip" disabled="disabled" value="${node.ip}">--%>
+<%--                                                    </div>--%>
+<%--                                                    <label for="port" class="col-sm-1 control-label">Port</label>--%>
+<%--                                                    <div class="col-sm-3">--%>
+<%--                                                        <input type="text" class="form-control" id="port" disabled="disabled" value="${node.port}">--%>
+<%--                                                    </div>--%>
+<%--                                                </div>--%>
                                         </div>
                                         <!-- 提交按钮 -->
                                         <div class="form-group">
                                             <div class="col-sm-1"></div>
                                             <div class="col-sm-3">
-                                                <button type="submit" class="btn btn-info">上传并运行</button>
+                                                <button type="button" class="btn btn-info">上传并运行</button>
                                             </div>
                                             <div class="col-sm-6">
                                                 <button type="submit" class="btn btn-info">提交</button>
@@ -485,8 +606,9 @@
                         <!-- 配置窗口内容 -->
                         <div class="modal-body">
                             <h4>Router 配置</h4>
-                            <form>
+                            <form id="addNodeR">
                                 <!-- 输入框 -->
+                                <input type="hidden" id="rId">
                                 <div class="form-group">
                                     <h4>Name <input type="text" class="form-control" id="rName"></h4>
                                 </div>
@@ -512,8 +634,9 @@
                         <!-- 配置窗口内容 -->
                         <div class="modal-body">
                             <h4>Switch 配置</h4>
-                            <form>
+                            <form id="addNodeS">
                                 <!-- 输入框 -->
+                                <input type="hidden" id="sId">
                                 <div class="form-group">
                                     <h4>Name <input type="text" class="form-control" id="sName"></h4>
                                 </div>
@@ -538,8 +661,9 @@
                         <!-- 配置窗口内容 -->
                         <div class="modal-body">
                             <h4>Host 配置</h4>
-                            <form>
+                            <form id="addNodeH">
                                 <!-- 输入框 -->
+                                <input type="hidden" id="hId">
                                 <div class="form-group">
                                     <h4>Name <input type="text" class="form-control" id="hName"></h4>
                                 </div>
@@ -560,6 +684,9 @@
             </div>
         </div>
     </div>
+</div>
+<div id="alert" class="alert alert-success" style="display:none;">
+    保存成功！
 </div>
 </body>
 </html>
